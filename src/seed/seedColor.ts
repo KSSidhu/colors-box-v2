@@ -1,3 +1,13 @@
+export type Palette = {
+    paletteName: string
+    id: string
+    emoji: string
+    colors: {
+        name: string
+        color: string
+    }[]
+}
+
 export default [
     {
         paletteName: 'Material UI Colors',
