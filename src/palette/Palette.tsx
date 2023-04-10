@@ -1,5 +1,5 @@
 import ColorBox from '../colorBox/ColorBox'
-import { Palette } from '../seed/seedColor'
+import { Palette } from '../utils/colorHelper'
 import './Palette.css'
 
 interface PaletteProps {
@@ -9,8 +9,8 @@ interface PaletteProps {
 export default function Palette(props: PaletteProps) {
     const { palette } = props
 
-    const colorBoxes = palette.colors.map((color) => (
-        <ColorBox background={color.color} name={color.name} />
+    const colorBoxes = palette.colors[300].map((color) => (
+        <ColorBox background={color.hex} name={color.name} />
     ))
     return (
         <div className={'Palette'}>
