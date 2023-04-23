@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/material": "^5.12.1",
     "@types/react-copy-to-clipboard": "^5.0.4",
     "prettier-plugin-organize-imports": "^3.2.2",
     "rc-slider": "^10.1.1",

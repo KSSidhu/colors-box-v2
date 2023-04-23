@@ -8,6 +8,8 @@ export type BasePalette = {
         color: string
     }[]
 }
+export type Format = 'hex' | 'rgb' | 'rgba'
+
 export type Palette = {
     paletteName: string
     id: string
