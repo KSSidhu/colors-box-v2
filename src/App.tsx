@@ -1,14 +1,20 @@
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
 import Palette from './palette/Palette'
-import seedColor from './seed/seedColor'
-import { generatePalette } from './utils/colorHelper'
+
+const router = createBrowserRouter([
+    {
+        path: '/',
+        element: <div>{'Palettes HERE'}</div>,
+    },
+    {
+        path: '/palette/:paletteId',
+        element: <Palette />,
+    },
+])
 
 function App() {
-    return (
-        <div className="App">
-            <Palette palette={generatePalette(seedColor[4])} />
-        </div>
-    )
+    return <RouterProvider router={router} />
 }
 
 export default App

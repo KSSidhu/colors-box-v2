@@ -1,18 +1,17 @@
 import 'rc-slider/assets/index.css'
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import ColorBox from '../colorBox/ColorBox'
 import Navbar from '../navbar/Navbar'
-import { Format, Palette } from '../utils/colorHelper'
+import { Format, generatePalette } from '../utils/colorHelper'
 import './Palette.css'
 
-interface PaletteProps {
-    palette: Palette
-}
-
-export default function Palette(props: PaletteProps) {
+export default function Palette() {
+    const { paletteId } = useParams()
     const [level, setLevel] = useState(500)
     const [format, setFormat] = useState<Format>('hex')
-    const { palette } = props
+    const palette = generatePalette(paletteId || '')
+    if (!palette) return null
 
     const colorBoxes = palette.colors[level].map((color) => (
         <ColorBox key={color.id} background={color[format]} name={color.name} />

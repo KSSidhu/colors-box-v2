@@ -1,4 +1,5 @@
 import chroma from 'chroma-js'
+import seedColor from '../seed/seedColor'
 export type BasePalette = {
     paletteName: string
     id: string
@@ -27,7 +28,13 @@ export type Color = {
 
 const levels = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]
 
-export function generatePalette(starterPalette: BasePalette): Palette {
+function findPalette(id: string) {
+    return seedColor.find((palette) => palette.id === id)
+}
+
+export function generatePalette(id: string): Palette | null {
+    const starterPalette = findPalette(id)
+    if (!starterPalette) return null
     let newPalette: Palette = {
         paletteName: starterPalette.paletteName,
         id: starterPalette.id,
