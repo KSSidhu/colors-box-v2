@@ -1,33 +1,33 @@
 {
-  "name": "color_box",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
-    "@mui/icons-material": "^5.11.16",
-    "@mui/material": "^5.12.1",
-    "@types/react-copy-to-clipboard": "^5.0.4",
-    "prettier-plugin-organize-imports": "^3.2.2",
-    "rc-slider": "^10.1.1",
-    "react": "^18.2.0",
-    "react-copy-to-clipboard": "^5.1.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.10.0"
-  },
-  "devDependencies": {
-    "@types/chroma-js": "^2.4.0",
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
-    "@vitejs/plugin-react-swc": "^3.0.0",
-    "chroma-js": "^2.4.2",
-    "typescript": "^4.9.3",
-    "vite": "^4.2.0"
-  }
+    "name": "color_box",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@mui/icons-material": "5.11.16",
+        "@mui/styles": "^5.13.1",
+        "@mui/system": "^5.13.1",
+        "@types/react-copy-to-clipboard": "5.0.4",
+        "prettier-plugin-organize-imports": "3.2.2",
+        "rc-slider": "10.1.1",
+        "react": "^17.0.2",
+        "react-copy-to-clipboard": "5.1.0",
+        "react-dom": "^17.0.2",
+        "react-router-dom": "6.10.0",
+        "tss-react": "4.8.3"
+    },
+    "devDependencies": {
+        "@types/chroma-js": "2.4.0",
+        "@types/react": "17.0.39",
+        "@types/react-dom": "17.0.11",
+        "@vitejs/plugin-react-swc": "3.0.0",
+        "chroma-js": "2.4.2",
+        "typescript": "4.9.3",
+        "vite": "4.2.0"
+    }
 }
