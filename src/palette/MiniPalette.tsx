@@ -1,10 +1,12 @@
 import { makeStyles } from '@mui/styles'
+import { useNavigate } from 'react-router-dom'
 import { BasePalette } from '../utils/colorHelper'
 
 type MiniPaletteProps = BasePalette
 
 function MiniPalette(props: MiniPaletteProps) {
-    const { paletteName, emoji, colors } = props
+    const { paletteName, emoji, colors, id } = props
+    const navigate = useNavigate()
     const classes = useStyles()
 
     const minicolorBoxes = colors.map((color) => (
@@ -16,7 +18,7 @@ function MiniPalette(props: MiniPaletteProps) {
     ))
 
     return (
-        <div className={classes.root}>
+        <div className={classes.root} onClick={goToPalette}>
             <div className={classes.colours}>
                 {/* Mini colour boxes*/}
                 {minicolorBoxes}
@@ -27,6 +29,10 @@ function MiniPalette(props: MiniPaletteProps) {
             </h5>
         </div>
     )
+
+    function goToPalette() {
+        navigate(`/palette/${id}`)
+    }
 }
 
 const useStyles = makeStyles({
