@@ -14,7 +14,13 @@ export default function Palette() {
     if (!palette) return null
 
     const colorBoxes = palette.colors[level].map((color) => (
-        <ColorBox key={color.id} background={color[format]} name={color.name} />
+        <ColorBox
+            key={color.id}
+            id={color.id}
+            background={color[format]}
+            name={color.name}
+            paletteId={paletteId || ''}
+        />
     ))
     return (
         <div className={'Palette'}>
