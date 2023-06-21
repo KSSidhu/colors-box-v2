@@ -16,10 +16,9 @@ export default function Palette() {
     const colorBoxes = palette.colors[level].map((color) => (
         <ColorBox
             key={color.id}
-            id={color.id}
             background={color[format]}
             name={color.name}
-            paletteId={paletteId || ''}
+            moreUrl={`/palette/${paletteId}/${color.id}`}
         />
     ))
     return (

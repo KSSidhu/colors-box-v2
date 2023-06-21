@@ -6,16 +6,10 @@ import './ColorBox.css'
 interface ColorBoxProps {
     background: string
     name: string
-    id: string
-    paletteId: string
+    moreUrl?: string
 }
 
-export default function ColorBox({
-    id,
-    paletteId,
-    name,
-    background,
-}: ColorBoxProps) {
+export default function ColorBox({ name, background, moreUrl }: ColorBoxProps) {
     const [showOverlay, setShowOverlay] = useState(false)
 
     return (
@@ -35,12 +29,11 @@ export default function ColorBox({
                     </div>
                     <button className={'copy-button'}>{'Copy'}</button>
                 </div>
-                <Link
-                    to={`/palette/${paletteId}/${id}`}
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    <span className={'see-more'}>{'More'}</span>
-                </Link>
+                {moreUrl && (
+                    <Link to={moreUrl} onClick={(e) => e.stopPropagation()}>
+                        <span className={'see-more'}>{'More'}</span>
+                    </Link>
+                )}
             </div>
         </CopyToClipboard>
     )
