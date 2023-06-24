@@ -1,4 +1,5 @@
 import { makeStyles } from '@mui/styles'
+import classNames from 'classnames'
 import { useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Link } from 'react-router-dom'
@@ -7,17 +8,26 @@ import styleIf from '../utils/styleIf'
 interface ColorBoxProps {
     background: string
     name: string
+    customClasses?: string
     moreUrl?: string
 }
 
-export default function ColorBox({ name, background, moreUrl }: ColorBoxProps) {
+export default function ColorBox({
+    name,
+    background,
+    customClasses,
+    moreUrl,
+}: ColorBoxProps) {
     const [showOverlay, setShowOverlay] = useState(false)
 
     const classes = useStyles({ show: showOverlay })
 
     return (
         <CopyToClipboard text={background} onCopy={changeCopyState}>
-            <div style={{ background }} className={classes.colorBox}>
+            <div
+                style={{ background }}
+                className={classNames(customClasses, classes.colorBox)}
+            >
                 <div style={{ background }} className={classes.copyOverlay} />
                 <div className={classes.copyMsg}>
                     <h1>{'COPIED'}</h1>

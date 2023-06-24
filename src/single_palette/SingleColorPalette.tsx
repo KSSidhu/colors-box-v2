@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles'
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import ColorBox from '../colorBox/ColorBox'
 import Navbar from '../navbar/Navbar'
 import PaletteFooter from '../palette/PaletteFooter'
@@ -15,13 +15,28 @@ export default function SingleColorPalette() {
 
     const shades = generateShades()
     const colorBoxes = shades.map((color) => (
-        <ColorBox key={color.id} name={color.name} background={color[format]} />
+        <ColorBox
+            key={color.name}
+            name={color.name}
+            background={color[format]}
+            customClasses={classes.singleColorPaletteBox}
+        />
     ))
 
     return (
         <div className={classes.palette}>
             <Navbar handleChange={changeFormat} />
-            <div className={classes.paletteColors}>{colorBoxes}</div>
+            <div className={classes.paletteColors}>
+                {colorBoxes}
+                <div className={classes.goBack}>
+                    <Link
+                        to={`/palette/${paletteId}`}
+                        className={classes.backButton}
+                    >
+                        {'GO Back'}
+                    </Link>
+                </div>
+            </div>
             <PaletteFooter
                 paletteName={palette.paletteName}
                 emoji={palette.emoji}
@@ -56,5 +71,37 @@ const useStyles = makeStyles({
     },
     paletteColors: {
         height: '90%',
+    },
+    singleColorPaletteBox: {
+        height: '50%',
+    },
+    goBack: {
+        background: 'black',
+        width: '20%',
+        height: '50%',
+        margin: '0 auto',
+        display: 'inline-block',
+        cursor: 'pointer',
+        position: 'relative',
+        marginBottom: '-3.5px',
+    },
+    backButton: {
+        width: '100px',
+        height: '30px',
+        position: 'absolute',
+        display: 'inline-block',
+        top: '50%',
+        left: '50%',
+        marginLeft: '-50px',
+        marginTop: '-15px',
+        textAlign: 'center',
+        outline: 'none',
+        border: 'none',
+        background: 'rgba(255, 255, 255, 0.3)',
+        fontSize: '1rem',
+        lineHeight: '30px',
+        color: 'white',
+        textTransform: 'uppercase',
+        textDecoration: 'none',
     },
 })
