@@ -13,8 +13,8 @@ import { Format } from '../utils/colorHelper'
 import './Navbar.css'
 
 interface NavbarProps {
-    level: number
-    onChange: (newLevel: number | number[]) => void
+    level?: number
+    onChange?: (newLevel: number | number[]) => void
     handleChange: (evt: Format) => void
 }
 
@@ -27,18 +27,20 @@ function Navbar({ level, onChange, handleChange }: NavbarProps) {
             <div className={'logo'}>
                 <Link to={'/'}>{'reactcolorpicker'}</Link>
             </div>
-            <div className={'slider-container'}>
-                <span>{`level: ${level}`}</span>
-                <div className={'slider'}>
-                    <Slider
-                        defaultValue={level}
-                        min={100}
-                        max={900}
-                        step={100}
-                        onChange={onChange}
-                    />
+            {level && onChange && (
+                <div className={'slider-container'}>
+                    <span>{`level: ${level}`}</span>
+                    <div className={'slider'}>
+                        <Slider
+                            defaultValue={level}
+                            min={100}
+                            max={900}
+                            step={100}
+                            onChange={onChange}
+                        />
+                    </div>
                 </div>
-            </div>
+            )}
             <div className={'select-container '}>
                 <Select onChange={changeFormat} value={format}>
                     <MenuItem value={'hex'}>{'Hex - #ffff'}</MenuItem>

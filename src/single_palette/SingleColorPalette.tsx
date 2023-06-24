@@ -1,21 +1,31 @@
+import { makeStyles } from '@mui/styles'
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import ColorBox from '../colorBox/ColorBox'
-import { Color, generatePalette } from '../utils/colorHelper'
+import Navbar from '../navbar/Navbar'
+import PaletteFooter from '../palette/PaletteFooter'
+import { Color, Format, generatePalette } from '../utils/colorHelper'
 
 export default function SingleColorPalette() {
     const { colorId, paletteId } = useParams()
     const palette = generatePalette(paletteId || '')
+    const [format, setFormat] = useState<Format>('hex')
+    const classes = useStyles()
     if (!palette) return null
 
     const shades = generateShades()
     const colorBoxes = shades.map((color) => (
-        <ColorBox key={color.id} name={color.name} background={color.hex} />
+        <ColorBox key={color.id} name={color.name} background={color[format]} />
     ))
 
     return (
-        <div className={'Palette'}>
-            <h1>{'Single Color Palette'}</h1>
-            <div className={'Palette-colors'}>{colorBoxes}</div>
+        <div className={classes.palette}>
+            <Navbar handleChange={changeFormat} />
+            <div className={classes.paletteColors}>{colorBoxes}</div>
+            <PaletteFooter
+                paletteName={palette.paletteName}
+                emoji={palette.emoji}
+            />
         </div>
     )
 
@@ -32,4 +42,19 @@ export default function SingleColorPalette() {
         // palettes start from shade[50] (aka white) which we can ignore
         return shades.slice(1)
     }
+
+    function changeFormat(value: Format) {
+        setFormat(value)
+    }
 }
+
+const useStyles = makeStyles({
+    palette: {
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    paletteColors: {
+        height: '90%',
+    },
+})

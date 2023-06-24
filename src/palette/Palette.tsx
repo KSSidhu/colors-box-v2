@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import ColorBox from '../colorBox/ColorBox'
 import Navbar from '../navbar/Navbar'
 import { Format, generatePalette } from '../utils/colorHelper'
+import PaletteFooter from './PaletteFooter'
 
 export default function Palette() {
     const { paletteId } = useParams()
@@ -33,10 +34,10 @@ export default function Palette() {
             </div>
 
             <div className={classes.paletteColors}>{colorBoxes}</div>
-            <footer className={classes.paletteFooter}>
-                {palette.paletteName}
-                <span className={classes.emoji}>{palette.emoji}</span>
-            </footer>
+            <PaletteFooter
+                paletteName={palette.paletteName}
+                emoji={palette.emoji}
+            />
         </div>
     )
 
@@ -57,17 +58,5 @@ const useStyles = makeStyles({
     },
     paletteColors: {
         height: '90%',
-    },
-    paletteFooter: {
-        display: 'flex',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        height: '5vh',
-        fontWeight: 'bold',
-    },
-    emoji: {
-        fontSize: '1.5rem',
-        margin: '0 1rem',
     },
 })
