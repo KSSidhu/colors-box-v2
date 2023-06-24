@@ -1,15 +1,16 @@
+import { makeStyles } from '@mui/styles'
 import 'rc-slider/assets/index.css'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import ColorBox from '../colorBox/ColorBox'
 import Navbar from '../navbar/Navbar'
 import { Format, generatePalette } from '../utils/colorHelper'
-import './Palette.css'
 
 export default function Palette() {
     const { paletteId } = useParams()
     const [level, setLevel] = useState(500)
     const [format, setFormat] = useState<Format>('hex')
+    const classes = useStyles()
     const palette = generatePalette(paletteId || '')
     if (!palette) return null
 
@@ -22,7 +23,7 @@ export default function Palette() {
         />
     ))
     return (
-        <div className={'Palette'}>
+        <div className={classes.palette}>
             <div className={'slider'}>
                 <Navbar
                     level={level}
@@ -31,10 +32,10 @@ export default function Palette() {
                 />
             </div>
 
-            <div className={'Palette-colors'}>{colorBoxes}</div>
-            <footer className={'Palette-footer'}>
+            <div className={classes.paletteColors}>{colorBoxes}</div>
+            <footer className={classes.paletteFooter}>
                 {palette.paletteName}
-                <span className={'emoji'}>{palette.emoji}</span>
+                <span className={classes.emoji}>{palette.emoji}</span>
             </footer>
         </div>
     )
@@ -47,3 +48,26 @@ export default function Palette() {
         if (!Array.isArray(newLevel)) setLevel(newLevel)
     }
 }
+
+const useStyles = makeStyles({
+    palette: {
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    paletteColors: {
+        height: '90%',
+    },
+    paletteFooter: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        height: '5vh',
+        fontWeight: 'bold',
+    },
+    emoji: {
+        fontSize: '1.5rem',
+        margin: '0 1rem',
+    },
+})

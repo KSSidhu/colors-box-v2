@@ -43,6 +43,7 @@ const useStyles = makeStyles({
         padding: '0.5rem',
         position: 'relative',
         overflow: 'hidden',
+        height: 'fit-content',
         '&:hover': {
             cursor: 'pointer',
         },
@@ -61,7 +62,6 @@ const useStyles = makeStyles({
         margin: '0',
         color: 'black',
         paddingTop: '0.5rem',
-        paddingBottom: '0.75rem',
         fontSize: '1rem',
         position: 'relative',
     },
