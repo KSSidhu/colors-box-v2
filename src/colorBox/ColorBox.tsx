@@ -1,4 +1,5 @@
 import { makeStyles } from '@mui/styles'
+import chroma from 'chroma-js'
 import classNames from 'classnames'
 import { useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
@@ -19,8 +20,9 @@ export default function ColorBox({
     moreUrl,
 }: ColorBoxProps) {
     const [showOverlay, setShowOverlay] = useState(false)
-
-    const classes = useStyles({ show: showOverlay })
+    const isDark = chroma(background).luminance() <= 0.06
+    const isLight = chroma(background).luminance() >= 0.7
+    const classes = useStyles({ show: showOverlay, isDark, isLight })
 
     return (
         <CopyToClipboard text={background} onCopy={changeCopyState}>
@@ -31,7 +33,7 @@ export default function ColorBox({
                 <div style={{ background }} className={classes.copyOverlay} />
                 <div className={classes.copyMsg}>
                     <h1>{'COPIED'}</h1>
-                    <p>{background}</p>
+                    <p className={classes.backgroundText}>{background}</p>
                 </div>
                 <div className={'copy-container'}>
                     <div className={classes.boxContent}>
@@ -56,6 +58,8 @@ export default function ColorBox({
 
 interface StyleProps {
     show: boolean
+    isDark: boolean
+    isLight: boolean
 }
 
 const useStyles = makeStyles({
@@ -72,7 +76,7 @@ const useStyles = makeStyles({
             transition: '0.5s',
         },
     },
-    copyButton: {
+    copyButton: ({ isLight }: StyleProps) => ({
         width: '100px',
         height: '30px',
         position: 'absolute',
@@ -87,33 +91,33 @@ const useStyles = makeStyles({
         background: 'rgba(255, 255, 255, 0.3)',
         fontSize: '1rem',
         lineHeight: '30px',
-        color: 'white',
+        color: isLight ? 'rgba(0,0,0,0.5)' : 'white',
         textTransform: 'uppercase',
         opacity: 0,
-    },
-    seeMore: {
+    }),
+    seeMore: ({ isLight }: StyleProps) => ({
         background: 'rgba(255, 255, 255, 0.3)',
         position: 'absolute',
         border: 'none',
         right: '0px',
         bottom: '0px',
-        color: 'white',
+        color: isLight ? 'rgba(0,0,0,0.5)' : 'white',
         width: '60px',
         height: '30px',
         textAlign: 'center',
         lineHeight: '30px',
         textTransform: 'uppercase',
-    },
-    boxContent: {
+    }),
+    boxContent: ({ isDark }: StyleProps) => ({
         position: 'absolute',
         width: '100%',
         left: '0px',
         bottom: '0px',
         padding: '10px',
-        color: 'black',
+        color: isDark ? 'white' : 'black',
         textTransform: 'uppercase',
         fontSize: '12px',
-    },
+    }),
     copyOverlay: ({ show }: StyleProps) => ({
         opacity: 0,
         zIndex: 0,
@@ -128,7 +132,7 @@ const useStyles = makeStyles({
             position: 'absolute',
         }),
     }),
-    copyMsg: ({ show }: StyleProps) => ({
+    copyMsg: ({ isLight, show }: StyleProps) => ({
         position: 'fixed',
         left: 0,
         right: 0,
@@ -152,10 +156,6 @@ const useStyles = makeStyles({
             padding: '1rem',
             textTransform: 'uppercase',
         },
-        '& p': {
-            fontSize: '2rem',
-            fontWeight: 100,
-        },
         ...styleIf(show, {
             opacity: 1,
             transform: 'scale(1)',
@@ -163,5 +163,10 @@ const useStyles = makeStyles({
             transition: 'all 0.4s ease-in-out',
             transitionDelay: '0.3s',
         }),
+    }),
+    backgroundText: ({ isLight }: StyleProps) => ({
+        fontSize: '2rem',
+        fontWeight: 100,
+        color: isLight ? 'rgba(0,0,0,0.5)' : 'white',
     }),
 })
