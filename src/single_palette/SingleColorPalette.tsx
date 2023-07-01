@@ -19,7 +19,7 @@ export default function SingleColorPalette() {
             key={color.name}
             name={color.name}
             background={color[format]}
-            customClasses={classes.singleColorPaletteBox}
+            viewingSinglePalette
         />
     ))
 
@@ -71,9 +71,6 @@ const useStyles = makeStyles({
     },
     paletteColors: {
         height: '90%',
-    },
-    singleColorPaletteBox: {
-        height: '50%',
     },
     goBack: {
         background: 'black',

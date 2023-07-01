@@ -11,6 +11,7 @@ interface ColorBoxProps {
     name: string
     customClasses?: string
     moreUrl?: string
+    viewingSinglePalette?: boolean
 }
 
 export default function ColorBox({
@@ -18,11 +19,17 @@ export default function ColorBox({
     background,
     customClasses,
     moreUrl,
+    viewingSinglePalette = false,
 }: ColorBoxProps) {
     const [showOverlay, setShowOverlay] = useState(false)
     const isDark = chroma(background).luminance() <= 0.06
     const isLight = chroma(background).luminance() >= 0.7
-    const classes = useStyles({ show: showOverlay, isDark, isLight })
+    const classes = useStyles({
+        show: showOverlay,
+        isDark,
+        isLight,
+        viewingSinglePalette,
+    })
 
     return (
         <CopyToClipboard text={background} onCopy={changeCopyState}>
@@ -35,7 +42,7 @@ export default function ColorBox({
                     <h1>{'COPIED'}</h1>
                     <p className={classes.backgroundText}>{background}</p>
                 </div>
-                <div className={'copy-container'}>
+                <div>
                     <div className={classes.boxContent}>
                         <span>{name}</span>
                     </div>
@@ -60,12 +67,13 @@ interface StyleProps {
     show: boolean
     isDark: boolean
     isLight: boolean
+    viewingSinglePalette: boolean
 }
 
 const useStyles = makeStyles({
-    colorBox: {
+    colorBox: ({ viewingSinglePalette }) => ({
         width: '20%',
-        height: '25%',
+        height: viewingSinglePalette ? '50%' : '25%',
         margin: '0 auto',
         display: 'inline-block',
         cursor: 'pointer',
@@ -75,7 +83,7 @@ const useStyles = makeStyles({
             opacity: 1,
             transition: '0.5s',
         },
-    },
+    }),
     copyButton: ({ isLight }: StyleProps) => ({
         width: '100px',
         height: '30px',
