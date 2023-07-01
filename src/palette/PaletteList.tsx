@@ -1,3 +1,4 @@
+import { Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { BasePalette } from '../utils/colorHelper'
 import MiniPalette from './MiniPalette'
@@ -13,6 +14,9 @@ function PaletteList({ palettes }: PaletteListProps) {
             <div className={classes.container}>
                 <nav className={classes.nav}>
                     <h1>{'React Colors'}</h1>
+                    <Button href={'/palette/new'} variant={'contained'}>
+                        {'Create New Palette'}
+                    </Button>
                 </nav>
                 <div className={classes.palettes}>
                     {palettes.map((palette) => (
@@ -44,6 +48,7 @@ const useStyles = makeStyles({
         width: '100%',
         justifyContent: 'space-between',
         color: 'white',
+        alignItems: 'center',
     },
     palettes: {
         boxSizing: 'border-box',

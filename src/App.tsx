@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
+import PaletteForm from './form/PaletteForm'
 import Palette from './palette/Palette'
 import PaletteList from './palette/PaletteList'
 import seedColor from './seed/seedColor'
@@ -9,6 +10,10 @@ const router = createBrowserRouter([
     {
         path: '/',
         element: <PaletteList palettes={seedColor} />,
+    },
+    {
+        path: '/palette/new',
+        element: <PaletteForm />,
     },
     {
         path: '/palette/:paletteId',
