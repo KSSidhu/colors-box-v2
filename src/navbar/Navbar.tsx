@@ -6,11 +6,11 @@ import {
     SelectChangeEvent,
     Snackbar,
 } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import Slider from 'rc-slider'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Format } from '../utils/colorHelper'
-import './Navbar.css'
 
 interface NavbarProps {
     level?: number
@@ -21,16 +21,17 @@ interface NavbarProps {
 function Navbar({ level, onChange, handleChange }: NavbarProps) {
     const [format, setFormat] = useState('hex')
     const [showSnackbar, setShowSnackbar] = useState(false)
+    const classes = useStyles()
 
     return (
-        <header className={'Navbar'}>
-            <div className={'logo'}>
+        <header className={classes.navbar}>
+            <div className={classes.logo}>
                 <Link to={'/'}>{'reactcolorpicker'}</Link>
             </div>
             {level && onChange && (
-                <div className={'slider-container'}>
+                <div>
                     <span>{`level: ${level}`}</span>
-                    <div className={'slider'}>
+                    <div className={classes.slider}>
                         <Slider
                             defaultValue={level}
                             min={100}
@@ -41,7 +42,7 @@ function Navbar({ level, onChange, handleChange }: NavbarProps) {
                     </div>
                 </div>
             )}
-            <div className={'select-container '}>
+            <div className={classes.selectContainer}>
                 <Select onChange={changeFormat} value={format}>
                     <MenuItem value={'hex'}>{'Hex - #ffff'}</MenuItem>
                     <MenuItem value={'rgb'}>
@@ -86,5 +87,56 @@ function Navbar({ level, onChange, handleChange }: NavbarProps) {
         setShowSnackbar(false)
     }
 }
+
+const useStyles = makeStyles({
+    navbar: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        height: '6vh',
+    },
+    logo: {
+        marginRight: '15px',
+        padding: '0 13px',
+        fontSize: '22px',
+        backgroundColor: '#eceff1',
+        fontFamily: 'Roboto',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        '& a': {
+            textDecoration: 'none',
+            color: 'black',
+        },
+    },
+
+    slider: {
+        width: '340px',
+        margin: '0px',
+        display: 'inline-block',
+        '& .rc-slider-rail': {
+            height: '8px',
+        },
+        '& .rc-slider-handle, .rc-slider-handle:focus, .rc-slider-handle:active, .rc-slider-handle:hover':
+            {
+                backgroundColor: 'green',
+                outline: 'none',
+                border: '2px solid green',
+                boxShadow: 'none',
+                width: '13px',
+                height: '13px',
+                marginLeft: '-7px',
+                marginTop: '-3px',
+            },
+        '& .rc-slider-track': {
+            backgroundColor: 'transparent',
+        },
+    },
+
+    selectContainer: {
+        marginLeft: 'auto',
+        marginRight: '1rem',
+    },
+})
 
 export default Navbar
