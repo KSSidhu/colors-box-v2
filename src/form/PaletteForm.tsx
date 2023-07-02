@@ -2,6 +2,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import MenuIcon from '@mui/icons-material/Menu'
 import {
     AppBar,
+    Button,
     CssBaseline,
     Divider,
     Drawer,
@@ -12,12 +13,15 @@ import {
 import { makeStyles } from '@mui/styles'
 import classNames from 'classnames'
 import { useState } from 'react'
+import { ChromePicker, ColorResult } from 'react-color'
 
-const drawerWidth = 240
+const drawerWidth = 400
 
 export default function PaletteForm() {
     const classes = useStyles()
     const [open, setOpen] = useState(false)
+    const [currentColor, setCurrentColor] = useState('teal')
+    const [colors, setColors] = useState(['purple', '#e15674'])
 
     return (
         <div className={classes.root}>
@@ -61,6 +65,27 @@ export default function PaletteForm() {
                     </IconButton>
                 </div>
                 <Divider />
+                <Typography variant={'h4'}>{'Design Your Palette'}</Typography>
+                <div>
+                    <Button variant={'contained'} color={'error'}>
+                        {'Clear Palette'}
+                    </Button>
+                    <Button variant={'contained'} color={'primary'}>
+                        {'Random Color'}
+                    </Button>
+                </div>
+                <ChromePicker
+                    color={currentColor}
+                    onChangeComplete={handleColorChange}
+                />
+                <Button
+                    variant={'contained'}
+                    color={'primary'}
+                    style={{ backgroundColor: currentColor }}
+                    onClick={addNewColor}
+                >
+                    {'Save Color'}
+                </Button>
             </Drawer>
             <main
                 className={classNames(classes.content, {
@@ -68,9 +93,22 @@ export default function PaletteForm() {
                 })}
             >
                 <div className={classes.drawerHeader} />
+                <ul>
+                    {colors.map((color) => (
+                        <li>{color}</li>
+                    ))}
+                </ul>
             </main>
         </div>
     )
+
+    function handleColorChange(newColor: ColorResult) {
+        setCurrentColor(newColor.hex)
+    }
+
+    function addNewColor() {
+        setColors([...colors, currentColor])
+    }
 
     function handleDrawerOpen() {
         setOpen(true)
