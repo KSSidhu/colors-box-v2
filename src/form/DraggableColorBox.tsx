@@ -2,13 +2,17 @@ import { makeStyles } from '@mui/styles'
 
 interface DraggableColorBoxProps {
     color: string
+    name: string
 }
 
-export default function DraggableColorBox({ color }: DraggableColorBoxProps) {
+export default function DraggableColorBox({
+    name,
+    color,
+}: DraggableColorBoxProps) {
     const classes = useStyles()
     return (
         <div className={classes.root} style={{ backgroundColor: color }}>
-            {color}
+            {name}
         </div>
     )
 }
