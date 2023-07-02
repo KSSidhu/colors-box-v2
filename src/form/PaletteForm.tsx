@@ -14,6 +14,7 @@ import { makeStyles } from '@mui/styles'
 import classNames from 'classnames'
 import { useState } from 'react'
 import { ChromePicker, ColorResult } from 'react-color'
+import DraggableColorBox from './DraggableColorBox'
 
 const drawerWidth = 400
 
@@ -93,11 +94,9 @@ export default function PaletteForm() {
                 })}
             >
                 <div className={classes.drawerHeader} />
-                <ul>
-                    {colors.map((color) => (
-                        <li>{color}</li>
-                    ))}
-                </ul>
+                {colors.map((color) => (
+                    <DraggableColorBox color={color} />
+                ))}
             </main>
         </div>
     )
@@ -160,6 +159,7 @@ const useStyles = makeStyles((theme) => ({
     },
     content: {
         flexGrow: 1,
+        height: 'calc(100vh - 64px)',
         padding: theme.spacing(3),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
