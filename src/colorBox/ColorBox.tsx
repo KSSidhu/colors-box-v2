@@ -152,7 +152,7 @@ const useStyles = makeStyles({
         fontSize: '3rem',
         transform: 'scale(0.1)',
         opacity: 0,
-        color: 'white',
+        color: isLight ? 'rbga(0,0,0,0.5)' : 'white',
         flexDirection: 'column',
         '& h1': {
             fontWeight: 400,
