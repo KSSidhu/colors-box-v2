@@ -12,9 +12,11 @@ import {
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import classNames from 'classnames'
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useContext, useEffect, useState } from 'react'
 import { ChromePicker, ColorResult } from 'react-color'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
+import { PaletteContext } from '../context/paletteContext'
+import { BasePalette } from '../utils/colorHelper'
 import DraggableColorBox from './DraggableColorBox'
 
 const drawerWidth = 400
@@ -30,6 +32,7 @@ export default function PaletteForm() {
     const [currentColor, setCurrentColor] = useState('teal')
     const [colors, setColors] = useState<NewColor[]>([])
     const [newName, setNewName] = useState('')
+    const { savePalette } = useContext(PaletteContext)!
 
     useEffect(() => {
         ValidatorForm.addValidationRule(
@@ -50,6 +53,7 @@ export default function PaletteForm() {
         <div className={classes.root}>
             <CssBaseline />
             <AppBar
+                color={'default'}
                 position="fixed"
                 className={classNames(classes.appBar, {
                     [classes.appBarShift]: open,
@@ -69,8 +73,15 @@ export default function PaletteForm() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap>
-                        Persistent drawer
+                        {'Persistent Drawer'}
                     </Typography>
+                    <Button
+                        variant={'contained'}
+                        color={'primary'}
+                        onClick={handleSubmit}
+                    >
+                        {'Save Palette'}
+                    </Button>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -163,6 +174,16 @@ export default function PaletteForm() {
 
     function handleDrawerClose() {
         setOpen(false)
+    }
+
+    function handleSubmit() {
+        const newPalette: BasePalette = {
+            paletteName: 'New Test Palette',
+            colors: colors,
+            id: 'new-test-palette',
+            emoji: '',
+        }
+        savePalette(newPalette)
     }
 }
 

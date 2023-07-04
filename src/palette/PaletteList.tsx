@@ -1,14 +1,16 @@
 import { Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import { BasePalette } from '../utils/colorHelper'
+import { useContext } from 'react'
+import { PaletteContext } from '../context/paletteContext'
 import MiniPalette from './MiniPalette'
 
-interface PaletteListProps {
-    palettes: BasePalette[]
-}
-
-function PaletteList({ palettes }: PaletteListProps) {
+function PaletteList() {
+    const context = useContext(PaletteContext)
     const classes = useStyles()
+
+    if (!context) return null
+
+    const { palettes } = context
     return (
         <div className={classes.root}>
             <div className={classes.container}>

@@ -1,10 +1,10 @@
 import { createTheme, Theme, ThemeProvider } from '@mui/material/styles'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
+import { PaletteProvider } from './context/paletteContext'
 import PaletteForm from './form/PaletteForm'
 import Palette from './palette/Palette'
 import PaletteList from './palette/PaletteList'
-import seedColor from './seed/seedColor'
 import SingleColorPalette from './single_palette/SingleColorPalette'
 
 declare module '@mui/styles/defaultTheme' {
@@ -15,7 +15,7 @@ declare module '@mui/styles/defaultTheme' {
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <PaletteList palettes={seedColor} />,
+        element: <PaletteList />,
     },
     {
         path: '/palette/new',
@@ -33,10 +33,11 @@ const router = createBrowserRouter([
 
 function App() {
     const theme = createTheme()
-
     return (
         <ThemeProvider theme={theme}>
-            <RouterProvider router={router} />
+            <PaletteProvider>
+                <RouterProvider router={router} />
+            </PaletteProvider>
         </ThemeProvider>
     )
 }
