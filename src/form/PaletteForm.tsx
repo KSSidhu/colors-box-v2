@@ -12,10 +12,11 @@ import {
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import classNames from 'classnames'
-import { FormEvent, useContext, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { ChromePicker, ColorResult } from 'react-color'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
-import { PaletteContext } from '../context/paletteContext'
+import { useNavigate } from 'react-router-dom'
+import { usePalettes } from '../context/paletteContext'
 import { BasePalette } from '../utils/colorHelper'
 import DraggableColorBox from './DraggableColorBox'
 
@@ -32,7 +33,8 @@ export default function PaletteForm() {
     const [currentColor, setCurrentColor] = useState('teal')
     const [colors, setColors] = useState<NewColor[]>([])
     const [newName, setNewName] = useState('')
-    const { savePalette } = useContext(PaletteContext)!
+    const { savePalette } = usePalettes()!
+    const navigate = useNavigate()
 
     useEffect(() => {
         ValidatorForm.addValidationRule(
@@ -184,6 +186,7 @@ export default function PaletteForm() {
             emoji: '',
         }
         savePalette(newPalette)
+        navigate('/')
     }
 }
 

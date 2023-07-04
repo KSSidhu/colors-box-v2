@@ -2,15 +2,21 @@ import { makeStyles } from '@mui/styles'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ColorBox from '../colorBox/ColorBox'
+import { usePalettes } from '../context/paletteContext'
 import Navbar from '../navbar/Navbar'
 import PaletteFooter from '../palette/PaletteFooter'
-import { Color, Format, generatePalette } from '../utils/colorHelper'
+import { Color, Format } from '../utils/colorHelper'
 
 export default function SingleColorPalette() {
     const { colorId, paletteId } = useParams()
-    const palette = generatePalette(paletteId || '')
+    const context = usePalettes()
     const [format, setFormat] = useState<Format>('hex')
     const classes = useStyles()
+    if (!context) return null
+
+    const { generatePalette } = context
+    const palette = generatePalette(paletteId || '')
+
     if (!palette) return null
 
     const shades = generateShades()
