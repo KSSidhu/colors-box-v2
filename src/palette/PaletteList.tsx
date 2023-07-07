@@ -1,6 +1,7 @@
 import { Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useContext } from 'react'
+import { Link } from 'react-router-dom'
 import { PaletteContext } from '../context/paletteContext'
 import MiniPalette from './MiniPalette'
 
@@ -16,7 +17,11 @@ function PaletteList() {
             <div className={classes.container}>
                 <nav className={classes.nav}>
                     <h1>{'React Colors'}</h1>
-                    <Button href={'/palette/new'} variant={'contained'}>
+                    <Button
+                        component={Link}
+                        to={'/palette/new'}
+                        variant={'contained'}
+                    >
                         {'Create New Palette'}
                     </Button>
                 </nav>

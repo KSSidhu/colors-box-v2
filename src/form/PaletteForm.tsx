@@ -32,8 +32,9 @@ export default function PaletteForm() {
     const [open, setOpen] = useState(false)
     const [currentColor, setCurrentColor] = useState('teal')
     const [colors, setColors] = useState<NewColor[]>([])
-    const [newName, setNewName] = useState('')
-    const { savePalette } = usePalettes()!
+    const [newColorName, setNewColorName] = useState('')
+    const [newPaletteName, setNewPaletteName] = useState('')
+    const { palettes, savePalette } = usePalettes()!
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -49,41 +50,64 @@ export default function PaletteForm() {
         ValidatorForm.addValidationRule('isColorUnique', (_) => {
             return colors.every((color) => color.color !== currentColor)
         })
-    }, [colors, currentColor])
+
+        ValidatorForm.addValidationRule(
+            'isPaletteNameUnique',
+            (value: string) => {
+                return palettes.every((palette) => {
+                    console.log(palette.paletteName, value)
+                    return (
+                        palette.paletteName.toLowerCase() !==
+                        value.toLowerCase()
+                    )
+                })
+            }
+        )
+    }, [colors, currentColor, palettes])
 
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar
-                color={'default'}
-                position="fixed"
-                className={classNames(classes.appBar, {
-                    [classes.appBarShift]: open,
-                })}
-            >
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        className={classNames(
-                            classes.menuButton,
-                            open && classes.hide
-                        )}
-                    >
-                        <MenuIcon />
-                    </IconButton>
+            <AppBar color={'default'} position="fixed">
+                <Toolbar
+                    className={classNames(classes.appBar, {
+                        [classes.appBarShift]: open,
+                    })}
+                >
+                    {!open && (
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={handleDrawerOpen}
+                            edge="start"
+                            className={classes.menuButton}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                    )}
                     <Typography variant="h6" noWrap>
                         {'Persistent Drawer'}
                     </Typography>
-                    <Button
-                        variant={'contained'}
-                        color={'primary'}
-                        onClick={handleSubmit}
-                    >
-                        {'Save Palette'}
-                    </Button>
+                    <ValidatorForm onSubmit={handleSubmit}>
+                        <TextValidator
+                            label={'Palette Name'}
+                            value={newPaletteName}
+                            onChange={handleNameChange}
+                            name={'newPaletteName'}
+                            validators={['required', 'isPaletteNameUnique']}
+                            errorMessages={[
+                                'Must enter palette name',
+                                'That palette name already exists',
+                            ]}
+                        />
+                        <Button
+                            variant={'contained'}
+                            color={'primary'}
+                            type={'submit'}
+                        >
+                            {'Save Palette'}
+                        </Button>
+                    </ValidatorForm>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -116,8 +140,8 @@ export default function PaletteForm() {
                 />
                 <ValidatorForm onSubmit={addNewColor}>
                     <TextValidator
-                        name={'color'}
-                        value={newName}
+                        name={'newColorName'}
+                        value={newColorName}
                         onChange={handleNameChange}
                         validators={[
                             'required',
@@ -158,7 +182,11 @@ export default function PaletteForm() {
     )
 
     function handleNameChange(evt: FormEvent<HTMLInputElement>) {
-        setNewName(evt.currentTarget.value)
+        if (evt.currentTarget.name === 'newColorName')
+            setNewColorName(evt.currentTarget.value)
+
+        if (evt.currentTarget.name === 'newPaletteName')
+            setNewPaletteName(evt.currentTarget.value)
     }
 
     function handleColorChange(newColor: ColorResult) {
@@ -166,8 +194,8 @@ export default function PaletteForm() {
     }
 
     function addNewColor() {
-        setColors([...colors, { name: newName, color: currentColor }])
-        setNewName('')
+        setColors([...colors, { name: newColorName, color: currentColor }])
+        setNewColorName('')
     }
 
     function handleDrawerOpen() {
@@ -180,9 +208,9 @@ export default function PaletteForm() {
 
     function handleSubmit() {
         const newPalette: BasePalette = {
-            paletteName: 'New Test Palette',
+            paletteName: newPaletteName,
             colors: colors,
-            id: 'new-test-palette',
+            id: newPaletteName.toLowerCase().replace(/ /g, '-'),
             emoji: '',
         }
         savePalette(newPalette)
