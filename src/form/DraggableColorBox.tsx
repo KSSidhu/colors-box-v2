@@ -1,5 +1,8 @@
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 import { DeleteOutlined } from '@mui/icons-material'
 import { makeStyles } from '@mui/styles'
+import { CSSProperties } from 'react'
 
 interface DraggableColorBoxProps {
     color: string
@@ -12,9 +15,26 @@ export default function DraggableColorBox({
     color,
     deleteColor,
 }: DraggableColorBoxProps) {
+    const { setNodeRef, attributes, listeners, transform, transition } =
+        useSortable({
+            id: name,
+        })
     const classes = useStyles()
+
+    const styles: CSSProperties = {
+        background: color,
+        transform: CSS.Translate.toString(transform),
+        transition,
+    }
+
     return (
-        <div className={classes.root} style={{ backgroundColor: color }}>
+        <div
+            ref={setNodeRef}
+            className={classes.root}
+            style={styles}
+            {...attributes}
+            {...listeners}
+        >
             <div className={classes.boxContent}>
                 <span>{name}</span>
                 <DeleteOutlined

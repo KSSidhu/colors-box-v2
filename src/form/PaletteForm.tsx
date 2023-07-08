@@ -1,3 +1,5 @@
+import { DragEndEvent, DragStartEvent, UniqueIdentifier } from '@dnd-kit/core'
+import { arrayMove } from '@dnd-kit/sortable'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import MenuIcon from '@mui/icons-material/Menu'
 import {
@@ -18,11 +20,11 @@ import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import { useNavigate } from 'react-router-dom'
 import { usePalettes } from '../context/paletteContext'
 import { BasePalette } from '../utils/colorHelper'
-import DraggableColorBox from './DraggableColorBox'
+import DraggableColorList from './DraggableColorList'
 
 const drawerWidth = 400
 
-type NewColor = {
+export type NewColor = {
     name: string
     color: string
 }
@@ -33,6 +35,7 @@ export default function PaletteForm() {
     const [currentColor, setCurrentColor] = useState('teal')
     const [colors, setColors] = useState<NewColor[]>([])
     const [newColorName, setNewColorName] = useState('')
+    const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
     const [newPaletteName, setNewPaletteName] = useState('')
     const { palettes, savePalette } = usePalettes()!
     const navigate = useNavigate()
@@ -170,17 +173,43 @@ export default function PaletteForm() {
                 })}
             >
                 <div className={classes.drawerHeader} />
-                {colors.map((color) => (
-                    <DraggableColorBox
-                        key={color.name}
-                        color={color.color}
-                        name={color.name}
-                        deleteColor={deleteColor}
-                    />
-                ))}
+                <DraggableColorList
+                    colors={colors}
+                    deleteColor={deleteColor}
+                    handleDragEnd={handleDragEnd}
+                    handleDragCancel={handleDragCancel}
+                    handleDragStart={handleDragStart}
+                />
             </main>
         </div>
     )
+
+    function handleDragStart(event: DragStartEvent) {
+        setActiveId(event.active.id)
+    }
+
+    function handleDragEnd(event: DragEndEvent) {
+        const { active, over } = event
+
+        if (active.id !== over?.id) {
+            setColors((colors) => {
+                const oldIndex = colors
+                    .map((color) => color.name)
+                    .indexOf(active.id.toString())
+                const newIndex = colors
+                    .map((color) => color.name)
+                    .indexOf((over?.id || '').toString())
+
+                return arrayMove(colors, oldIndex, newIndex)
+            })
+        }
+
+        setActiveId(null)
+    }
+
+    function handleDragCancel() {
+        setActiveId(null)
+    }
 
     function deleteColor(colorName: string) {
         setColors(colors.filter((color) => color.name !== colorName))
