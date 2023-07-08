@@ -175,11 +175,16 @@ export default function PaletteForm() {
                         key={color.name}
                         color={color.color}
                         name={color.name}
+                        deleteColor={deleteColor}
                     />
                 ))}
             </main>
         </div>
     )
+
+    function deleteColor(colorName: string) {
+        setColors(colors.filter((color) => color.name !== colorName))
+    }
 
     function handleNameChange(evt: FormEvent<HTMLInputElement>) {
         if (evt.currentTarget.name === 'newColorName')

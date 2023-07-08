@@ -4,21 +4,30 @@ import { makeStyles } from '@mui/styles'
 interface DraggableColorBoxProps {
     color: string
     name: string
+    deleteColor: (colorName: string) => void
 }
 
 export default function DraggableColorBox({
     name,
     color,
+    deleteColor,
 }: DraggableColorBoxProps) {
     const classes = useStyles()
     return (
         <div className={classes.root} style={{ backgroundColor: color }}>
             <div className={classes.boxContent}>
                 <span>{name}</span>
-                <DeleteOutlined className={classes.icon} />
+                <DeleteOutlined
+                    className={classes.icon}
+                    onClick={handleDelete}
+                />
             </div>
         </div>
     )
+
+    function handleDelete() {
+        deleteColor(name)
+    }
 }
 
 const useStyles = makeStyles({
