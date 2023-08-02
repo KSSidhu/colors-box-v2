@@ -1,17 +1,7 @@
 import { DragEndEvent, DragStartEvent, UniqueIdentifier } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import MenuIcon from '@mui/icons-material/Menu'
-import {
-    AppBar,
-    Button,
-    CssBaseline,
-    Divider,
-    Drawer,
-    IconButton,
-    Toolbar,
-    Typography,
-} from '@mui/material'
+import { Button, Divider, Drawer, IconButton, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import classNames from 'classnames'
 import { FormEvent, useEffect, useState } from 'react'
@@ -21,8 +11,9 @@ import { useNavigate } from 'react-router-dom'
 import { usePalettes } from '../context/paletteContext'
 import { BasePalette } from '../utils/colorHelper'
 import DraggableColorList from './DraggableColorList'
+import PaletteFormNav from './PaletteFormNav'
 
-const drawerWidth = 400
+export const drawerWidth = 400
 
 export type NewColor = {
     name: string
@@ -37,7 +28,6 @@ export default function PaletteForm() {
     const [currentColor, setCurrentColor] = useState('teal')
     const [newColorName, setNewColorName] = useState('')
     const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
-    const [newPaletteName, setNewPaletteName] = useState('')
     const { palettes, savePalette } = usePalettes()!
     const [colors, setColors] = useState<NewColor[]>(palettes[0].colors)
     const navigate = useNavigate()
@@ -74,49 +64,11 @@ export default function PaletteForm() {
 
     return (
         <div className={classes.root}>
-            <CssBaseline />
-            <AppBar color={'default'} position="fixed">
-                <Toolbar
-                    className={classNames(classes.appBar, {
-                        [classes.appBarShift]: open,
-                    })}
-                >
-                    {!open && (
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={handleDrawerOpen}
-                            edge="start"
-                            className={classes.menuButton}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                    )}
-                    <Typography variant="h6" noWrap>
-                        {'Persistent Drawer'}
-                    </Typography>
-                    <ValidatorForm onSubmit={handleSubmit}>
-                        <TextValidator
-                            label={'Palette Name'}
-                            value={newPaletteName}
-                            onChange={handleNameChange}
-                            name={'newPaletteName'}
-                            validators={['required', 'isPaletteNameUnique']}
-                            errorMessages={[
-                                'Must enter palette name',
-                                'That palette name already exists',
-                            ]}
-                        />
-                        <Button
-                            variant={'contained'}
-                            color={'primary'}
-                            type={'submit'}
-                        >
-                            {'Save Palette'}
-                        </Button>
-                    </ValidatorForm>
-                </Toolbar>
-            </AppBar>
+            <PaletteFormNav
+                open={open}
+                onDrawerOpen={handleDrawerOpen}
+                onSubmit={handleSubmit}
+            />
             <Drawer
                 className={classes.drawer}
                 variant="persistent"
@@ -244,9 +196,6 @@ export default function PaletteForm() {
     function handleNameChange(evt: FormEvent<HTMLInputElement>) {
         if (evt.currentTarget.name === 'newColorName')
             setNewColorName(evt.currentTarget.value)
-
-        if (evt.currentTarget.name === 'newPaletteName')
-            setNewPaletteName(evt.currentTarget.value)
     }
 
     function handleColorChange(newColor: ColorResult) {
@@ -266,7 +215,7 @@ export default function PaletteForm() {
         setOpen(false)
     }
 
-    function handleSubmit() {
+    function handleSubmit(newPaletteName: string) {
         const newPalette: BasePalette = {
             paletteName: newPaletteName,
             colors: colors,
@@ -281,23 +230,6 @@ export default function PaletteForm() {
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
-    },
-    appBar: {
-        transition: theme.transitions.create(['margin', 'width'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-    },
-    appBarShift: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
-        transition: theme.transitions.create(['margin', 'width'], {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
     },
     hide: {
         display: 'none',
