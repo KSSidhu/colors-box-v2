@@ -29,15 +29,17 @@ export type NewColor = {
     color: string
 }
 
+const MAX_COLORS = 20
+
 export default function PaletteForm() {
     const classes = useStyles()
     const [open, setOpen] = useState(false)
     const [currentColor, setCurrentColor] = useState('teal')
-    const [colors, setColors] = useState<NewColor[]>([])
     const [newColorName, setNewColorName] = useState('')
     const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
     const [newPaletteName, setNewPaletteName] = useState('')
     const { palettes, savePalette } = usePalettes()!
+    const [colors, setColors] = useState<NewColor[]>(palettes[0].colors)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -67,6 +69,8 @@ export default function PaletteForm() {
             }
         )
     }, [colors, currentColor, palettes])
+
+    const paletteIsFull = colors.length >= MAX_COLORS
 
     return (
         <div className={classes.root}>
@@ -130,10 +134,19 @@ export default function PaletteForm() {
                 <Divider />
                 <Typography variant={'h4'}>{'Design Your Palette'}</Typography>
                 <div>
-                    <Button variant={'contained'} color={'error'}>
+                    <Button
+                        variant={'contained'}
+                        color={'error'}
+                        onClick={clearPalette}
+                    >
                         {'Clear Palette'}
                     </Button>
-                    <Button variant={'contained'} color={'primary'}>
+                    <Button
+                        variant={'contained'}
+                        color={'primary'}
+                        disabled={paletteIsFull}
+                        onClick={addRandomColor}
+                    >
                         {'Random Color'}
                     </Button>
                 </div>
@@ -162,8 +175,9 @@ export default function PaletteForm() {
                         type={'submit'}
                         color={'primary'}
                         style={{ backgroundColor: currentColor }}
+                        disabled={paletteIsFull}
                     >
-                        {'Save Color'}
+                        {paletteIsFull ? 'Palette Full' : 'Save Color'}
                     </Button>
                 </ValidatorForm>
             </Drawer>
@@ -183,6 +197,18 @@ export default function PaletteForm() {
             </main>
         </div>
     )
+
+    function clearPalette() {
+        setColors([])
+    }
+
+    function addRandomColor() {
+        const allColors = palettes.map((p) => p.colors).flat()
+        const rand = Math.floor(Math.random() * allColors.length)
+
+        const randomColor = allColors[rand]
+        setColors((prevColors) => [...prevColors, randomColor])
+    }
 
     function handleDragStart(event: DragStartEvent) {
         setActiveId(event.active.id)
