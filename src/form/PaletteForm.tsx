@@ -4,12 +4,11 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { Button, Divider, Drawer, IconButton, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import classNames from 'classnames'
-import { FormEvent, useEffect, useState } from 'react'
-import { ChromePicker, ColorResult } from 'react-color'
-import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePalettes } from '../context/paletteContext'
 import { BasePalette } from '../utils/colorHelper'
+import ColorPickerForm from './ColorPickerForm'
 import DraggableColorList from './DraggableColorList'
 import PaletteFormNav from './PaletteFormNav'
 
@@ -25,41 +24,10 @@ const MAX_COLORS = 20
 export default function PaletteForm() {
     const classes = useStyles()
     const [open, setOpen] = useState(false)
-    const [currentColor, setCurrentColor] = useState('teal')
-    const [newColorName, setNewColorName] = useState('')
     const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
     const { palettes, savePalette } = usePalettes()!
     const [colors, setColors] = useState<NewColor[]>(palettes[0].colors)
     const navigate = useNavigate()
-
-    useEffect(() => {
-        ValidatorForm.addValidationRule(
-            'isColorNameUnique',
-            (value: string) => {
-                return colors.every(
-                    (color) => color.name.toLowerCase() !== value.toLowerCase()
-                )
-            }
-        )
-
-        ValidatorForm.addValidationRule('isColorUnique', (_) => {
-            return colors.every((color) => color.color !== currentColor)
-        })
-
-        ValidatorForm.addValidationRule(
-            'isPaletteNameUnique',
-            (value: string) => {
-                return palettes.every((palette) => {
-                    console.log(palette.paletteName, value)
-                    return (
-                        palette.paletteName.toLowerCase() !==
-                        value.toLowerCase()
-                    )
-                })
-            }
-        )
-    }, [colors, currentColor, palettes])
-
     const paletteIsFull = colors.length >= MAX_COLORS
 
     return (
@@ -102,36 +70,12 @@ export default function PaletteForm() {
                         {'Random Color'}
                     </Button>
                 </div>
-                <ChromePicker
-                    color={currentColor}
-                    onChangeComplete={handleColorChange}
+                <ColorPickerForm
+                    palettes={palettes}
+                    colors={colors}
+                    paletteIsFull={paletteIsFull}
+                    addColor={addNewColor}
                 />
-                <ValidatorForm onSubmit={addNewColor}>
-                    <TextValidator
-                        name={'newColorName'}
-                        value={newColorName}
-                        onChange={handleNameChange}
-                        validators={[
-                            'required',
-                            'isColorNameUnique',
-                            'isColorUnique',
-                        ]}
-                        errorMessages={[
-                            'Color name is required',
-                            'Color name must be unique',
-                            'Cannot add an existing color',
-                        ]}
-                    />
-                    <Button
-                        variant={'contained'}
-                        type={'submit'}
-                        color={'primary'}
-                        style={{ backgroundColor: currentColor }}
-                        disabled={paletteIsFull}
-                    >
-                        {paletteIsFull ? 'Palette Full' : 'Save Color'}
-                    </Button>
-                </ValidatorForm>
             </Drawer>
             <main
                 className={classNames(classes.content, {
@@ -193,18 +137,8 @@ export default function PaletteForm() {
         setColors(colors.filter((color) => color.name !== colorName))
     }
 
-    function handleNameChange(evt: FormEvent<HTMLInputElement>) {
-        if (evt.currentTarget.name === 'newColorName')
-            setNewColorName(evt.currentTarget.value)
-    }
-
-    function handleColorChange(newColor: ColorResult) {
-        setCurrentColor(newColor.hex)
-    }
-
-    function addNewColor() {
-        setColors([...colors, { name: newColorName, color: currentColor }])
-        setNewColorName('')
+    function addNewColor(newColor: { name: string; color: string }) {
+        setColors([...colors, newColor])
     }
 
     function handleDrawerOpen() {
