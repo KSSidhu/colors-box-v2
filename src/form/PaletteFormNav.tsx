@@ -46,7 +46,7 @@ export default function PaletteFormNav({
     }, [palettes])
 
     return (
-        <>
+        <div className={classes.root}>
             <CssBaseline />
             <AppBar color={'default'} position="fixed">
                 <Toolbar
@@ -66,36 +66,38 @@ export default function PaletteFormNav({
                         </IconButton>
                     )}
                     <Typography variant="h6" noWrap>
-                        {'Persistent Drawer'}
+                        {'Create a Palette'}
                     </Typography>
-                    <ValidatorForm onSubmit={handleSubmit}>
-                        <TextValidator
-                            label={'Palette Name'}
-                            value={newPaletteName}
-                            onChange={handleNameChange}
-                            name={'newPaletteName'}
-                            validators={['required', 'isPaletteNameUnique']}
-                            errorMessages={[
-                                'Must enter palette name',
-                                'That palette name already exists',
-                            ]}
-                        />
-                        <Button
-                            variant={'contained'}
-                            color={'primary'}
-                            type={'submit'}
-                        >
-                            {'Save Palette'}
-                        </Button>
+                    <div className={classes.navButtons}>
+                        <ValidatorForm onSubmit={handleSubmit}>
+                            <TextValidator
+                                label={'Palette Name'}
+                                value={newPaletteName}
+                                onChange={handleNameChange}
+                                name={'newPaletteName'}
+                                validators={['required', 'isPaletteNameUnique']}
+                                errorMessages={[
+                                    'Must enter palette name',
+                                    'That palette name already exists',
+                                ]}
+                            />
+                            <Button
+                                variant={'contained'}
+                                color={'primary'}
+                                type={'submit'}
+                            >
+                                {'Save Palette'}
+                            </Button>
+                        </ValidatorForm>
                         <Link to={'/'}>
                             <Button variant={'contained'} color={'secondary'}>
                                 {'Go Back'}
                             </Button>
                         </Link>
-                    </ValidatorForm>
+                    </div>
                 </Toolbar>
             </AppBar>
-        </>
+        </div>
     )
 
     function handleNameChange(evt: FormEvent<HTMLInputElement>) {
@@ -109,11 +111,17 @@ export default function PaletteFormNav({
 }
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+    },
     appBar: {
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        height: '64px',
     },
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -125,5 +133,8 @@ const useStyles = makeStyles((theme) => ({
     },
     menuButton: {
         marginRight: theme.spacing(2),
+    },
+    navButtons: {
+        display: 'flex',
     },
 }))

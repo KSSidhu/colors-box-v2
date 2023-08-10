@@ -52,30 +52,36 @@ export default function PaletteForm() {
                     </IconButton>
                 </div>
                 <Divider />
-                <Typography variant={'h4'}>{'Design Your Palette'}</Typography>
-                <div>
-                    <Button
-                        variant={'contained'}
-                        color={'error'}
-                        onClick={clearPalette}
-                    >
-                        {'Clear Palette'}
-                    </Button>
-                    <Button
-                        variant={'contained'}
-                        color={'primary'}
-                        disabled={paletteIsFull}
-                        onClick={addRandomColor}
-                    >
-                        {'Random Color'}
-                    </Button>
+                <div className={classes.colorPickerContainer}>
+                    <Typography variant={'h4'} gutterBottom>
+                        {'Design Your Palette'}
+                    </Typography>
+                    <div className={classes.buttons}>
+                        <Button
+                            variant={'contained'}
+                            className={classes.button}
+                            color={'error'}
+                            onClick={clearPalette}
+                        >
+                            {'Clear Palette'}
+                        </Button>
+                        <Button
+                            variant={'contained'}
+                            color={'primary'}
+                            className={classes.button}
+                            disabled={paletteIsFull}
+                            onClick={addRandomColor}
+                        >
+                            {'Random Color'}
+                        </Button>
+                    </div>
+                    <ColorPickerForm
+                        palettes={palettes}
+                        colors={colors}
+                        paletteIsFull={paletteIsFull}
+                        addColor={addNewColor}
+                    />
                 </div>
-                <ColorPickerForm
-                    palettes={palettes}
-                    colors={colors}
-                    paletteIsFull={paletteIsFull}
-                    addColor={addNewColor}
-                />
             </Drawer>
             <main
                 className={classNames(classes.content, {
@@ -168,12 +174,20 @@ const useStyles = makeStyles((theme) => ({
     hide: {
         display: 'none',
     },
+    buttons: {
+        width: '100%',
+    },
+    button: {
+        width: '50%',
+    },
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
     },
     drawerPaper: {
         width: drawerWidth,
+        display: 'flex',
+        alignItems: 'center',
     },
     drawerHeader: {
         display: 'flex',
@@ -182,6 +196,14 @@ const useStyles = makeStyles((theme) => ({
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
+    },
+    colorPickerContainer: {
+        width: '90%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%',
     },
     content: {
         flexGrow: 1,

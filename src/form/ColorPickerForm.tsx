@@ -1,4 +1,5 @@
 import { Button } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import { FormEvent, useEffect, useState } from 'react'
 import { ChromePicker, ColorResult } from 'react-color'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
@@ -20,6 +21,7 @@ export default function ColorPickerForm({
 }: ColorPickerFormProps) {
     const [newColorName, setNewColorName] = useState('')
     const [currentColor, setCurrentColor] = useState('teal')
+    const classes = useStyles()
 
     useEffect(() => {
         ValidatorForm.addValidationRule(
@@ -50,8 +52,9 @@ export default function ColorPickerForm({
     }, [colors, currentColor, palettes])
 
     return (
-        <div>
+        <div className={classes.root}>
             <ChromePicker
+                className={classes.picker}
                 color={currentColor}
                 onChangeComplete={handleColorChange}
             />
@@ -59,7 +62,11 @@ export default function ColorPickerForm({
                 <TextValidator
                     name={'newColorName'}
                     value={newColorName}
+                    className={classes.colorInput}
                     onChange={handleNameChange}
+                    placeholder={'Color Name'}
+                    variant={'filled'}
+                    margin={'normal'}
                     validators={[
                         'required',
                         'isColorNameUnique',
@@ -72,6 +79,7 @@ export default function ColorPickerForm({
                     ]}
                 />
                 <Button
+                    className={classes.addColor}
                     variant={'contained'}
                     type={'submit'}
                     color={'primary'}
@@ -101,3 +109,20 @@ export default function ColorPickerForm({
         setCurrentColor(newColor.hex)
     }
 }
+
+const useStyles = makeStyles({
+    root: {
+        width: '100%',
+    },
+    picker: { width: '100% !important', marginTop: '2rem' },
+    addColor: {
+        width: '100%',
+        padding: '1rem',
+        marginTop: '1rem',
+        fontSize: '2rem',
+    },
+    colorInput: {
+        width: '100%',
+        height: '70px',
+    },
+})
