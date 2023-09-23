@@ -9,11 +9,9 @@ import {
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import classNames from 'classnames'
-import { FormEvent, useEffect, useState } from 'react'
-import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import { Link } from 'react-router-dom'
-import { usePalettes } from '../context/paletteContext'
 import { drawerWidth } from './PaletteForm'
+import PaletteMetaForm from './PaletteMetaForm'
 
 interface PaletteFormNavProps {
     open: boolean
@@ -26,25 +24,7 @@ export default function PaletteFormNav({
     onDrawerOpen,
     onSubmit,
 }: PaletteFormNavProps) {
-    const [newPaletteName, setNewPaletteName] = useState('')
-    const { palettes } = usePalettes()!
     const classes = useStyles()
-
-    useEffect(() => {
-        ValidatorForm.addValidationRule(
-            'isPaletteNameUnique',
-            (value: string) => {
-                return palettes.every((palette) => {
-                    console.log(palette.paletteName, value)
-                    return (
-                        palette.paletteName.toLowerCase() !==
-                        value.toLowerCase()
-                    )
-                })
-            }
-        )
-    }, [palettes])
-
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -69,26 +49,8 @@ export default function PaletteFormNav({
                         {'Create a Palette'}
                     </Typography>
                     <div className={classes.navButtons}>
-                        <ValidatorForm onSubmit={handleSubmit}>
-                            <TextValidator
-                                label={'Palette Name'}
-                                value={newPaletteName}
-                                onChange={handleNameChange}
-                                name={'newPaletteName'}
-                                validators={['required', 'isPaletteNameUnique']}
-                                errorMessages={[
-                                    'Must enter palette name',
-                                    'That palette name already exists',
-                                ]}
-                            />
-                            <Button
-                                variant={'contained'}
-                                color={'primary'}
-                                type={'submit'}
-                            >
-                                {'Save Palette'}
-                            </Button>
-                        </ValidatorForm>
+                        {/*        */}
+                        <PaletteMetaForm onSubmit={onSubmit} />
                         <Link to={'/'}>
                             <Button variant={'contained'} color={'secondary'}>
                                 {'Go Back'}
@@ -99,15 +61,6 @@ export default function PaletteFormNav({
             </AppBar>
         </div>
     )
-
-    function handleNameChange(evt: FormEvent<HTMLInputElement>) {
-        if (evt.currentTarget.name === 'newPaletteName')
-            setNewPaletteName(evt.currentTarget.value)
-    }
-
-    function handleSubmit() {
-        onSubmit(newPaletteName)
-    }
 }
 
 const useStyles = makeStyles((theme) => ({
