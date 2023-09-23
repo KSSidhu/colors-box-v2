@@ -9,14 +9,18 @@ import {
 import { FormEvent, useEffect, useState } from 'react'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import { usePalettes } from '../context/paletteContext'
-import useDisclosure from '../utils/useDisclosure'
 
 interface PaletteMetaFormProps {
+    isOpen: boolean
+    onClose: () => void
     onSubmit: (name: string) => void
 }
 
-export default function PaletteMetaForm({ onSubmit }: PaletteMetaFormProps) {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+export default function PaletteMetaForm({
+    isOpen,
+    onClose,
+    onSubmit,
+}: PaletteMetaFormProps) {
     const [newPaletteName, setNewPaletteName] = useState('')
     const { palettes } = usePalettes()!
 
@@ -36,55 +40,48 @@ export default function PaletteMetaForm({ onSubmit }: PaletteMetaFormProps) {
     }, [palettes])
 
     return (
-        <div>
-            <Button variant={'outlined'} color={'primary'} onClick={onOpen}>
-                {'Open form dialog'}
-            </Button>
-            <Dialog
-                open={isOpen}
-                onClose={onClose}
-                aria-labelledby={'form-dialog-title'}
-            >
-                <DialogTitle id={'form-dialog-title'}>
-                    {'Subscribe'}
-                </DialogTitle>
+        <Dialog
+            open={isOpen}
+            onClose={onClose}
+            aria-labelledby={'form-dialog-title'}
+        >
+            <DialogTitle id={'form-dialog-title'}>
+                {'Enter a Palette Name'}
+            </DialogTitle>
+            <ValidatorForm onSubmit={handleSubmit}>
+                <TextValidator
+                    label={'Palette Name'}
+                    value={newPaletteName}
+                    onChange={handleNameChange}
+                    fullWidth
+                    margin={'normal'}
+                    name={'newPaletteName'}
+                    validators={['required', 'isPaletteNameUnique']}
+                    errorMessages={[
+                        'Must enter palette name',
+                        'That palette name already exists',
+                    ]}
+                />
+
                 <DialogContent>
                     <DialogContentText>
-                        {
-                            'To subscribe to this website, please enter your email address here. We will send updates occasionally.'
-                        }
-                    </DialogContentText>{' '}
-                    <ValidatorForm onSubmit={handleSubmit}>
-                        <TextValidator
-                            label={'Palette Name'}
-                            value={newPaletteName}
-                            onChange={handleNameChange}
-                            name={'newPaletteName'}
-                            validators={['required', 'isPaletteNameUnique']}
-                            errorMessages={[
-                                'Must enter palette name',
-                                'That palette name already exists',
-                            ]}
-                        />
-                        <Button
-                            variant={'contained'}
-                            color={'primary'}
-                            type={'submit'}
-                        >
-                            {'Save Palette'}
-                        </Button>
-                    </ValidatorForm>
+                        {'Please enter a unique name for your palette.'}
+                    </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={onClose} color={'primary'}>
                         {'Cancel'}
                     </Button>
-                    <Button onClick={onClose} color={'primary'}>
-                        {'Subscribe'}
+                    <Button
+                        variant={'contained'}
+                        color={'primary'}
+                        type={'submit'}
+                    >
+                        {'Save Palette'}
                     </Button>
                 </DialogActions>
-            </Dialog>
-        </div>
+            </ValidatorForm>
+        </Dialog>
     )
 
     function handleNameChange(evt: FormEvent<HTMLInputElement>) {

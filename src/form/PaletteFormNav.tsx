@@ -10,6 +10,7 @@ import {
 import { makeStyles } from '@mui/styles'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
+import useDisclosure from '../utils/useDisclosure'
 import { drawerWidth } from './PaletteForm'
 import PaletteMetaForm from './PaletteMetaForm'
 
@@ -24,41 +25,54 @@ export default function PaletteFormNav({
     onDrawerOpen,
     onSubmit,
 }: PaletteFormNavProps) {
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const classes = useStyles()
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar color={'default'} position="fixed">
-                <Toolbar
-                    className={classNames(classes.appBar, {
-                        [classes.appBarShift]: open,
-                    })}
-                >
-                    {!open && (
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={onDrawerOpen}
-                            edge="start"
-                            className={classes.menuButton}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                    )}
+            <AppBar
+                color={'default'}
+                position={'fixed'}
+                sx={{ flexDirection: 'row' }}
+                className={classNames(classes.appBar, {
+                    [classes.appBarShift]: open,
+                })}
+            >
+                <Toolbar disableGutters={!open}>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={onDrawerOpen}
+                        sx={{
+                            marginLeft: '16px',
+                        }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
                     <Typography variant="h6" noWrap>
                         {'Create a Palette'}
                     </Typography>
-                    <div className={classes.navButtons}>
-                        {/*        */}
-                        <PaletteMetaForm onSubmit={onSubmit} />
-                        <Link to={'/'}>
-                            <Button variant={'contained'} color={'secondary'}>
-                                {'Go Back'}
-                            </Button>
-                        </Link>
-                    </div>
                 </Toolbar>
+                <div className={classes.navButtons}>
+                    <Link to={'/'}>
+                        <Button variant={'contained'} color={'secondary'}>
+                            {'Go Back'}
+                        </Button>
+                    </Link>
+                    <Button
+                        variant={'contained'}
+                        color={'primary'}
+                        onClick={onOpen}
+                    >
+                        {'Save Palette'}
+                    </Button>
+                </div>
             </AppBar>
+            <PaletteMetaForm
+                isOpen={isOpen}
+                onClose={onClose}
+                onSubmit={onSubmit}
+            />
         </div>
     )
 }
@@ -68,13 +82,15 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
     },
     appBar: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        height: '64px',
+
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        height: '64px',
     },
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -84,10 +100,9 @@ const useStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.enteringScreen,
         }),
     },
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
     navButtons: {
+        marginRight: theme.spacing(3),
         display: 'flex',
+        gap: theme.spacing(1),
     },
 }))
