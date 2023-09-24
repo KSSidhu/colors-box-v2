@@ -48,39 +48,39 @@ export default function PaletteMetaForm({
             <DialogTitle id={'form-dialog-title'}>
                 {'Enter a Palette Name'}
             </DialogTitle>
-            <ValidatorForm onSubmit={handleSubmit}>
-                <TextValidator
-                    label={'Palette Name'}
-                    value={newPaletteName}
-                    onChange={handleNameChange}
-                    fullWidth
-                    margin={'normal'}
-                    name={'newPaletteName'}
-                    validators={['required', 'isPaletteNameUnique']}
-                    errorMessages={[
-                        'Must enter palette name',
-                        'That palette name already exists',
-                    ]}
-                />
+            <DialogContent>
+                <DialogContentText>
+                    {'Please enter a unique name for your palette.'}
+                </DialogContentText>
+                <ValidatorForm onSubmit={handleSubmit}>
+                    <TextValidator
+                        label={'Palette Name'}
+                        value={newPaletteName}
+                        onChange={handleNameChange}
+                        fullWidth
+                        margin={'normal'}
+                        name={'newPaletteName'}
+                        validators={['required', 'isPaletteNameUnique']}
+                        errorMessages={[
+                            'Must enter palette name',
+                            'That palette name already exists',
+                        ]}
+                    />
 
-                <DialogContent>
-                    <DialogContentText>
-                        {'Please enter a unique name for your palette.'}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={onClose} color={'primary'}>
-                        {'Cancel'}
-                    </Button>
-                    <Button
-                        variant={'contained'}
-                        color={'primary'}
-                        type={'submit'}
-                    >
-                        {'Save Palette'}
-                    </Button>
-                </DialogActions>
-            </ValidatorForm>
+                    <DialogActions>
+                        <Button onClick={onClose} color={'primary'}>
+                            {'Cancel'}
+                        </Button>
+                        <Button
+                            variant={'contained'}
+                            color={'primary'}
+                            type={'submit'}
+                        >
+                            {'Save Palette'}
+                        </Button>
+                    </DialogActions>
+                </ValidatorForm>
+            </DialogContent>
         </Dialog>
     )
 
