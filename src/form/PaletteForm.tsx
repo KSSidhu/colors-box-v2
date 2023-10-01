@@ -7,7 +7,8 @@ import classNames from 'classnames'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePalettes } from '../context/paletteContext'
-import { BasePalette } from '../utils/colorHelper'
+import { PaletteFormProvider } from '../context/paletteFormContext'
+import { BasePalette, BasePaletteData } from '../utils/colorHelper'
 import ColorPickerForm from './ColorPickerForm'
 import DraggableColorList from './DraggableColorList'
 import PaletteFormNav from './PaletteFormNav'
@@ -32,11 +33,13 @@ export default function PaletteForm() {
 
     return (
         <div className={classes.root}>
-            <PaletteFormNav
-                open={open}
-                onDrawerOpen={handleDrawerOpen}
-                onSubmit={handleSubmit}
-            />
+            <PaletteFormProvider>
+                <PaletteFormNav
+                    open={open}
+                    onDrawerOpen={handleDrawerOpen}
+                    onSubmit={handleSubmit}
+                />
+            </PaletteFormProvider>
             <Drawer
                 className={classes.drawer}
                 variant="persistent"
@@ -155,12 +158,16 @@ export default function PaletteForm() {
         setOpen(false)
     }
 
-    function handleSubmit(newPaletteName: string) {
+    function handleSubmit(newPaletteData: BasePaletteData) {
+        if (!newPaletteData.emoji || !newPaletteData.paletteName) {
+            console.log('Missing emoji or palette name')
+            return
+        }
         const newPalette: BasePalette = {
-            paletteName: newPaletteName,
+            paletteName: newPaletteData.paletteName,
             colors: colors,
-            id: newPaletteName.toLowerCase().replace(/ /g, '-'),
-            emoji: '',
+            id: newPaletteData.paletteName.toLowerCase().replace(/ /g, '-'),
+            emoji: newPaletteData.emoji,
         }
         savePalette(newPalette)
         navigate('/')

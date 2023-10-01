@@ -8,6 +8,9 @@ export type BasePalette = {
         color: string
     }[]
 }
+
+export type BasePaletteData = Partial<BasePalette>
+
 export type Format = 'hex' | 'rgb' | 'rgba'
 
 export type Palette = {

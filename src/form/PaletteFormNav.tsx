@@ -10,14 +10,15 @@ import {
 import { makeStyles } from '@mui/styles'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
-import useDisclosure from '../utils/useDisclosure'
+import { usePaletteForm } from '../context/paletteFormContext'
+import { BasePaletteData } from '../utils/colorHelper'
 import { drawerWidth } from './PaletteForm'
 import PaletteMetaForm from './PaletteMetaForm'
 
 interface PaletteFormNavProps {
     open: boolean
     onDrawerOpen: () => void
-    onSubmit: (newPaletteName: string) => void
+    onSubmit: (newPalette: BasePaletteData) => void
 }
 
 export default function PaletteFormNav({
@@ -25,7 +26,7 @@ export default function PaletteFormNav({
     onDrawerOpen,
     onSubmit,
 }: PaletteFormNavProps) {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { openNameForm } = usePaletteForm()!
     const classes = useStyles()
     return (
         <div className={classes.root}>
@@ -62,17 +63,13 @@ export default function PaletteFormNav({
                     <Button
                         variant={'contained'}
                         color={'primary'}
-                        onClick={onOpen}
+                        onClick={openNameForm}
                     >
                         {'Save Palette'}
                     </Button>
                 </div>
             </AppBar>
-            <PaletteMetaForm
-                isOpen={isOpen}
-                onClose={onClose}
-                onSubmit={onSubmit}
-            />
+            <PaletteMetaForm onSubmit={onSubmit} />
         </div>
     )
 }
