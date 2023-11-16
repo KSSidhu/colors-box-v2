@@ -1,12 +1,7 @@
-import chroma from 'chroma-js'
-import { createContext, ReactNode, useContext, useState } from 'react'
-import seedColor from '../seed/seedColor'
-import {
-    BasePalette,
-    generateScale,
-    levels,
-    Palette,
-} from '../utils/colorHelper'
+import chroma from "chroma-js"
+import { createContext, ReactNode, useContext, useState } from "react"
+import seedColor from "../seed/seedColor"
+import { BasePalette, generateScale, levels, Palette } from "../utils/colorHelper"
 
 type PaletteContextType = {
     palettes: BasePalette[]
@@ -50,13 +45,13 @@ export function PaletteProvider({ children }: PaletteProviderProps) {
             for (let i in scale) {
                 newPalette.colors[levels[i]].push({
                     name: `${color.name} ${levels[i]}`,
-                    id: color.name.toLowerCase().replace(/ /g, '-'),
+                    id: color.name.toLowerCase().replace(/ /g, "-"),
                     hex: scale[i],
                     rgb: chroma(scale[i]).css(),
                     rgba: chroma(scale[i])
                         .css()
-                        .replace('rgb', 'rgba')
-                        .replace(')', ',1.0)'),
+                        .replace("rgb", "rgba")
+                        .replace(")", ",1.0)"),
                 })
             }
         }

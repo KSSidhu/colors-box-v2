@@ -1,21 +1,21 @@
-import { makeStyles } from '@mui/styles'
-import { useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import ColorBox from '../colorBox/ColorBox'
-import { usePalettes } from '../context/paletteContext'
-import Navbar from '../navbar/Navbar'
-import PaletteFooter from '../palette/PaletteFooter'
-import { Color, Format } from '../utils/colorHelper'
+import { makeStyles } from "@mui/styles"
+import { useState } from "react"
+import { Link, useParams } from "react-router-dom"
+import ColorBox from "../colorBox/ColorBox"
+import { usePalettes } from "../context/paletteContext"
+import Navbar from "../navbar/Navbar"
+import PaletteFooter from "../palette/PaletteFooter"
+import { Color, Format } from "../utils/colorHelper"
 
 export default function SingleColorPalette() {
     const { colorId, paletteId } = useParams()
     const context = usePalettes()
-    const [format, setFormat] = useState<Format>('hex')
+    const [format, setFormat] = useState<Format>("hex")
     const classes = useStyles()
     if (!context) return null
 
     const { generatePalette } = context
-    const palette = generatePalette(paletteId || '')
+    const palette = generatePalette(paletteId || "")
 
     if (!palette) return null
 
@@ -35,18 +35,12 @@ export default function SingleColorPalette() {
             <div className={classes.paletteColors}>
                 {colorBoxes}
                 <div className={classes.goBack}>
-                    <Link
-                        to={`/palette/${paletteId}`}
-                        className={classes.backButton}
-                    >
-                        {'GO Back'}
+                    <Link to={`/palette/${paletteId}`} className={classes.backButton}>
+                        {"GO Back"}
                     </Link>
                 </div>
             </div>
-            <PaletteFooter
-                paletteName={palette.paletteName}
-                emoji={palette.emoji}
-            />
+            <PaletteFooter paletteName={palette.paletteName} emoji={palette.emoji} />
         </div>
     )
 
@@ -55,9 +49,7 @@ export default function SingleColorPalette() {
         let allColors = palette!.colors
 
         for (let key in allColors) {
-            shades = shades.concat(
-                allColors[key].filter((color) => color.id === colorId)
-            )
+            shades = shades.concat(allColors[key].filter((color) => color.id === colorId))
         }
 
         // palettes start from shade[50] (aka white) which we can ignore
@@ -71,40 +63,40 @@ export default function SingleColorPalette() {
 
 const useStyles = makeStyles({
     palette: {
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
     },
     paletteColors: {
-        height: '90%',
+        height: "90%",
     },
     goBack: {
-        background: 'black',
-        width: '20%',
-        height: '50%',
-        margin: '0 auto',
-        display: 'inline-block',
-        cursor: 'pointer',
-        position: 'relative',
-        marginBottom: '-3.5px',
+        background: "black",
+        width: "20%",
+        height: "50%",
+        margin: "0 auto",
+        display: "inline-block",
+        cursor: "pointer",
+        position: "relative",
+        marginBottom: "-3.5px",
     },
     backButton: {
-        width: '100px',
-        height: '30px',
-        position: 'absolute',
-        display: 'inline-block',
-        top: '50%',
-        left: '50%',
-        marginLeft: '-50px',
-        marginTop: '-15px',
-        textAlign: 'center',
-        outline: 'none',
-        border: 'none',
-        background: 'rgba(255, 255, 255, 0.3)',
-        fontSize: '1rem',
-        lineHeight: '30px',
-        color: 'white',
-        textTransform: 'uppercase',
-        textDecoration: 'none',
+        width: "100px",
+        height: "30px",
+        position: "absolute",
+        display: "inline-block",
+        top: "50%",
+        left: "50%",
+        marginLeft: "-50px",
+        marginTop: "-15px",
+        textAlign: "center",
+        outline: "none",
+        border: "none",
+        background: "rgba(255, 255, 255, 0.3)",
+        fontSize: "1rem",
+        lineHeight: "30px",
+        color: "white",
+        textTransform: "uppercase",
+        textDecoration: "none",
     },
 })

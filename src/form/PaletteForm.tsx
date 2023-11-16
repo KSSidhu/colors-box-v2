@@ -1,17 +1,17 @@
-import { DragEndEvent, DragStartEvent, UniqueIdentifier } from '@dnd-kit/core'
-import { arrayMove } from '@dnd-kit/sortable'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import { Button, Divider, Drawer, IconButton, Typography } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import classNames from 'classnames'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { usePalettes } from '../context/paletteContext'
-import { PaletteFormProvider } from '../context/paletteFormContext'
-import { BasePalette, BasePaletteData } from '../utils/colorHelper'
-import ColorPickerForm from './ColorPickerForm'
-import DraggableColorList from './DraggableColorList'
-import PaletteFormNav from './PaletteFormNav'
+import { DragEndEvent, DragStartEvent, UniqueIdentifier } from "@dnd-kit/core"
+import { arrayMove } from "@dnd-kit/sortable"
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
+import { Button, Divider, Drawer, IconButton, Typography } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+import classNames from "classnames"
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { usePalettes } from "../context/paletteContext"
+import { PaletteFormProvider } from "../context/paletteFormContext"
+import { BasePalette, BasePaletteData } from "../utils/colorHelper"
+import ColorPickerForm from "./ColorPickerForm"
+import DraggableColorList from "./DraggableColorList"
+import PaletteFormNav from "./PaletteFormNav"
 
 export const drawerWidth = 400
 
@@ -56,26 +56,26 @@ export default function PaletteForm() {
                 </div>
                 <Divider />
                 <div className={classes.colorPickerContainer}>
-                    <Typography variant={'h4'} gutterBottom>
-                        {'Design Your Palette'}
+                    <Typography variant={"h4"} gutterBottom>
+                        {"Design Your Palette"}
                     </Typography>
                     <div className={classes.buttons}>
                         <Button
-                            variant={'contained'}
+                            variant={"contained"}
                             className={classes.button}
-                            color={'error'}
+                            color={"error"}
                             onClick={clearPalette}
                         >
-                            {'Clear Palette'}
+                            {"Clear Palette"}
                         </Button>
                         <Button
-                            variant={'contained'}
-                            color={'primary'}
+                            variant={"contained"}
+                            color={"primary"}
                             className={classes.button}
                             disabled={paletteIsFull}
                             onClick={addRandomColor}
                         >
-                            {'Random Color'}
+                            {"Random Color"}
                         </Button>
                     </div>
                     <ColorPickerForm
@@ -129,7 +129,7 @@ export default function PaletteForm() {
                     .indexOf(active.id.toString())
                 const newIndex = colors
                     .map((color) => color.name)
-                    .indexOf((over?.id || '').toString())
+                    .indexOf((over?.id || "").toString())
 
                 return arrayMove(colors, oldIndex, newIndex)
             })
@@ -160,32 +160,32 @@ export default function PaletteForm() {
 
     function handleSubmit(newPaletteData: BasePaletteData) {
         if (!newPaletteData.emoji || !newPaletteData.paletteName) {
-            console.log('Missing emoji or palette name')
+            console.log("Missing emoji or palette name")
             return
         }
         const newPalette: BasePalette = {
             paletteName: newPaletteData.paletteName,
             colors: colors,
-            id: newPaletteData.paletteName.toLowerCase().replace(/ /g, '-'),
+            id: newPaletteData.paletteName.toLowerCase().replace(/ /g, "-"),
             emoji: newPaletteData.emoji,
         }
         savePalette(newPalette)
-        navigate('/')
+        navigate("/")
     }
 }
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex',
+        display: "flex",
     },
     hide: {
-        display: 'none',
+        display: "none",
     },
     buttons: {
-        width: '100%',
+        width: "100%",
     },
     button: {
-        width: '50%',
+        width: "50%",
     },
     drawer: {
         width: drawerWidth,
@@ -193,37 +193,37 @@ const useStyles = makeStyles((theme) => ({
     },
     drawerPaper: {
         width: drawerWidth,
-        display: 'flex',
-        alignItems: 'center',
+        display: "flex",
+        alignItems: "center",
     },
     drawerHeader: {
-        display: 'flex',
-        alignItems: 'center',
+        display: "flex",
+        alignItems: "center",
         padding: theme.spacing(0, 1),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
-        justifyContent: 'flex-end',
+        justifyContent: "flex-end",
     },
     colorPickerContainer: {
-        width: '90%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100%',
+        width: "90%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
     },
     content: {
         flexGrow: 1,
-        height: 'calc(100vh - 64px)',
+        height: "calc(100vh - 64px)",
         padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
+        transition: theme.transitions.create("margin", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
         marginLeft: -drawerWidth,
     },
     contentShift: {
-        transition: theme.transitions.create('margin', {
+        transition: theme.transitions.create("margin", {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),

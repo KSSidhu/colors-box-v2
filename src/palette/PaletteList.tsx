@@ -1,9 +1,9 @@
-import { Button } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import { useContext } from 'react'
-import { Link } from 'react-router-dom'
-import { PaletteContext } from '../context/paletteContext'
-import MiniPalette from './MiniPalette'
+import { Button } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+import { useContext } from "react"
+import { Link } from "react-router-dom"
+import { PaletteContext } from "../context/paletteContext"
+import MiniPalette from "./MiniPalette"
 
 function PaletteList() {
     const context = useContext(PaletteContext)
@@ -16,13 +16,9 @@ function PaletteList() {
         <div className={classes.root}>
             <div className={classes.container}>
                 <nav className={classes.nav}>
-                    <h1>{'React Colors'}</h1>
-                    <Button
-                        component={Link}
-                        to={'/palette/new'}
-                        variant={'contained'}
-                    >
-                        {'Create New Palette'}
+                    <h1>{"React Colors"}</h1>
+                    <Button component={Link} to={"/palette/new"} variant={"contained"}>
+                        {"Create New Palette"}
                     </Button>
                 </nav>
                 <div className={classes.palettes}>
@@ -37,32 +33,32 @@ function PaletteList() {
 
 const useStyles = makeStyles({
     root: {
-        backgroundColor: 'blue',
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'center',
+        backgroundColor: "blue",
+        height: "100vh",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "center",
     },
     container: {
-        width: '50%',
-        display: 'flex',
-        alignItems: 'flex-start',
-        flexDirection: 'column',
-        flexWrap: 'wrap',
+        width: "50%",
+        display: "flex",
+        alignItems: "flex-start",
+        flexDirection: "column",
+        flexWrap: "wrap",
     },
     nav: {
-        display: 'flex',
-        width: '100%',
-        justifyContent: 'space-between',
-        color: 'white',
-        alignItems: 'center',
+        display: "flex",
+        width: "100%",
+        justifyContent: "space-between",
+        color: "white",
+        alignItems: "center",
     },
     palettes: {
-        boxSizing: 'border-box',
-        width: '100%',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(3, 30%)',
-        gridGap: '5%',
+        boxSizing: "border-box",
+        width: "100%",
+        display: "grid",
+        gridTemplateColumns: "repeat(3, 30%)",
+        gridGap: "5%",
     },
 })
 

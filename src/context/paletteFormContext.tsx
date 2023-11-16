@@ -1,6 +1,6 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState } from "react"
 
-export type stepType = 'form' | 'emoji' | null
+export type stepType = "form" | "emoji" | null
 
 type PaletteFormContextType = {
     step: stepType
@@ -9,9 +9,7 @@ type PaletteFormContextType = {
     onClose: () => void
 }
 
-export const PaletteFormContext = createContext<PaletteFormContextType | null>(
-    null
-)
+export const PaletteFormContext = createContext<PaletteFormContextType | null>(null)
 
 interface PaletteFormProviderProps {
     children: React.ReactNode
@@ -25,11 +23,11 @@ export function PaletteFormProvider({ children }: PaletteFormProviderProps) {
     const [step, setStep] = useState<stepType>(null)
 
     function openEmojiPicker() {
-        setStep('emoji')
+        setStep("emoji")
     }
 
     function openNameForm() {
-        setStep('form')
+        setStep("form")
     }
 
     function onClose() {

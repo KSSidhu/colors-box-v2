@@ -5,10 +5,10 @@ import {
     MouseSensor,
     useSensor,
     useSensors,
-} from '@dnd-kit/core'
-import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable'
-import DraggableColorBox from './DraggableColorBox'
-import { NewColor } from './PaletteForm'
+} from "@dnd-kit/core"
+import { rectSortingStrategy, SortableContext } from "@dnd-kit/sortable"
+import DraggableColorBox from "./DraggableColorBox"
+import { NewColor } from "./PaletteForm"
 
 interface DraggableColorListProps {
     colors: NewColor[]
@@ -44,7 +44,7 @@ export default function DraggableColorList({
                 items={colors.map((color) => color.name)}
                 strategy={rectSortingStrategy}
             >
-                <div style={{ height: '100%' }}>
+                <div style={{ height: "100%" }}>
                     {colors.map((color) => (
                         <DraggableColorBox
                             key={color.name}
