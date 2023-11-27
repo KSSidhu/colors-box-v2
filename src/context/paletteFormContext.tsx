@@ -9,7 +9,12 @@ type PaletteFormContextType = {
     onClose: () => void
 }
 
-export const PaletteFormContext = createContext<PaletteFormContextType | null>(null)
+export const PaletteFormContext = createContext<PaletteFormContextType>({
+    step: null,
+    openEmojiPicker: () => {},
+    openNameForm: () => {},
+    onClose: () => {},
+})
 
 interface PaletteFormProviderProps {
     children: React.ReactNode

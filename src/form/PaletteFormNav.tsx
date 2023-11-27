@@ -26,7 +26,7 @@ export default function PaletteFormNav({
     onDrawerOpen,
     onSubmit,
 }: PaletteFormNavProps) {
-    const { openNameForm } = usePaletteForm()!
+    const { openNameForm } = usePaletteForm()
     const classes = useStyles()
     return (
         <div className={classes.root}>

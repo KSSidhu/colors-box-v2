@@ -20,7 +20,7 @@ interface PaletteMetaFormProps {
 export default function PaletteMetaForm({ onSubmit }: PaletteMetaFormProps) {
     const [newPaletteName, setNewPaletteName] = useState("")
     const { palettes } = usePalettes()
-    const { step, openEmojiPicker, onClose } = usePaletteForm()!
+    const { step, openEmojiPicker, onClose } = usePaletteForm()
 
     useEffect(() => {
         ValidatorForm.addValidationRule("isPaletteNameUnique", (value: string) => {
