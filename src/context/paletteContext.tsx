@@ -1,5 +1,5 @@
 import chroma from "chroma-js"
-import { createContext, ReactNode, useContext, useState } from "react"
+import { createContext, ReactNode, useContext, useEffect, useState } from "react"
 import seedColor from "../seed/seedColor"
 import { BasePalette, generateScale, levels, Palette } from "../utils/colorHelper"
 
@@ -20,7 +20,13 @@ export function usePalettes() {
 }
 
 export function PaletteProvider({ children }: PaletteProviderProps) {
-    const [palettes, setPalettes] = useState<BasePalette[]>(seedColor)
+    const paletteValue = window.localStorage.getItem("palettes")
+    const savedPalettes = paletteValue ? JSON.parse(paletteValue) : undefined
+    const [palettes, setPalettes] = useState<BasePalette[]>(savedPalettes || seedColor)
+
+    useEffect(() => {
+        syncLocalStorage()
+    }, [palettes])
 
     function findPalette(id: string) {
         return palettes.find((palette) => palette.id === id)
@@ -60,6 +66,10 @@ export function PaletteProvider({ children }: PaletteProviderProps) {
 
     function savePalette(newPalette: BasePalette) {
         setPalettes([...palettes, newPalette])
+    }
+
+    function syncLocalStorage() {
+        window.localStorage.setItem("palettes", JSON.stringify(palettes))
     }
 
     return (
