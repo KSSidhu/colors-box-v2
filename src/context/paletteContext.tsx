@@ -6,6 +6,7 @@ import { BasePalette, generateScale, levels, Palette } from "../utils/colorHelpe
 type PaletteContextType = {
     palettes: BasePalette[]
     savePalette: (newPalette: BasePalette) => void
+    deletePalette: (id: string) => void
     generatePalette: (id: string) => Palette | null
 }
 
@@ -68,6 +69,10 @@ export function PaletteProvider({ children }: PaletteProviderProps) {
         setPalettes([...palettes, newPalette])
     }
 
+    function deletePalette(id: string) {
+        setPalettes((prevState) => prevState.filter((palette) => palette.id !== id))
+    }
+
     function syncLocalStorage() {
         window.localStorage.setItem("palettes", JSON.stringify(palettes))
     }
@@ -78,6 +83,7 @@ export function PaletteProvider({ children }: PaletteProviderProps) {
                 palettes,
                 savePalette,
                 generatePalette,
+                deletePalette,
             }}
         >
             {children}

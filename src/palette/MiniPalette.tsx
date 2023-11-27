@@ -1,10 +1,14 @@
+import DeleteIcon from "@mui/icons-material/Delete"
 import { makeStyles } from "@mui/styles"
+import { MouseEvent } from "react"
 import { useNavigate } from "react-router-dom"
+import { usePalettes } from "../context/paletteContext"
 import { BasePalette } from "../utils/colorHelper"
 
 type MiniPaletteProps = BasePalette
 
 function MiniPalette(props: MiniPaletteProps) {
+    const { deletePalette } = usePalettes()!
     const { paletteName, emoji, colors, id } = props
     const navigate = useNavigate()
     const classes = useStyles()
@@ -19,16 +23,25 @@ function MiniPalette(props: MiniPaletteProps) {
 
     return (
         <div className={classes.root} onClick={goToPalette}>
-            <div className={classes.colours}>
-                {/* Mini colour boxes*/}
-                {minicolorBoxes}
-            </div>
+            <DeleteIcon
+                onClick={removePalette}
+                className={classes.deleteIcon}
+                sx={{
+                    transition: "all 0.3s ease-in-out",
+                }}
+            />
+            <div className={classes.colours}>{minicolorBoxes}</div>
             <h5 className={classes.title}>
                 {paletteName}
                 <span className={classes.emoji}>{emoji}</span>
             </h5>
         </div>
     )
+
+    function removePalette(e: MouseEvent<SVGSVGElement>) {
+        e.stopPropagation()
+        deletePalette(id)
+    }
 
     function goToPalette() {
         navigate(`/palette/${id}`)
@@ -44,8 +57,9 @@ const useStyles = makeStyles({
         position: "relative",
         overflow: "hidden",
         height: "fit-content",
-        "&:hover": {
-            cursor: "pointer",
+        cursor: "pointer",
+        "&:hover svg": {
+            opacity: 1,
         },
     },
     colours: {
@@ -76,6 +90,18 @@ const useStyles = makeStyles({
         margin: "0 auto",
         position: "relative",
         marginBottom: "-3.5px",
+    },
+    deleteIcon: {
+        color: "white",
+        backgroundColor: "#eb3d30",
+        width: "20px",
+        height: "20px",
+        position: "absolute",
+        right: 0,
+        top: 0,
+        padding: "10px",
+        zIndex: 10,
+        opacity: 0,
     },
 })
 
