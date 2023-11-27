@@ -26,7 +26,7 @@ export default function PaletteForm() {
     const classes = useStyles()
     const [open, setOpen] = useState(false)
     const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
-    const { palettes, savePalette } = usePalettes()!
+    const { palettes, savePalette } = usePalettes()
     const [colors, setColors] = useState<NewColor[]>(palettes[0].colors)
     const navigate = useNavigate()
     const paletteIsFull = colors.length >= MAX_COLORS

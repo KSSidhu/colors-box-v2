@@ -8,7 +8,7 @@ import { BasePalette } from "../utils/colorHelper"
 type MiniPaletteProps = BasePalette
 
 function MiniPalette(props: MiniPaletteProps) {
-    const { deletePalette } = usePalettes()!
+    const { deletePalette } = usePalettes()
     const { paletteName, emoji, colors, id } = props
     const navigate = useNavigate()
     const classes = useStyles()

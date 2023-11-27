@@ -10,7 +10,7 @@ import PaletteFooter from "./PaletteFooter"
 
 export default function Palette() {
     const { paletteId } = useParams()
-    const context = usePalettes()!
+    const context = usePalettes()
     const [level, setLevel] = useState(500)
     const [format, setFormat] = useState<Format>("hex")
     const classes = useStyles()

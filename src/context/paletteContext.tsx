@@ -10,7 +10,12 @@ type PaletteContextType = {
     generatePalette: (id: string) => Palette | null
 }
 
-export const PaletteContext = createContext<PaletteContextType | null>(null)
+export const PaletteContext = createContext<PaletteContextType>({
+    palettes: [],
+    savePalette: () => {},
+    deletePalette: (id: string) => {},
+    generatePalette: (id: string) => null,
+})
 
 interface PaletteProviderProps {
     children: ReactNode
