@@ -54,7 +54,7 @@ const useStyles = makeStyles({
         display: "inline-block",
         cursor: "pointer",
         position: "relative",
-        marginBottom: "-3.5px",
+        marginBottom: "-6.5px",
         "&:hover svg": {
             color: "white",
             transform: "scale(1.5)",

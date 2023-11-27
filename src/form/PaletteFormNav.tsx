@@ -1,4 +1,4 @@
-import MenuIcon from "@mui/icons-material/Menu"
+import { ChevronRight } from "@mui/icons-material"
 import {
     AppBar,
     Button,
@@ -35,9 +35,11 @@ export default function PaletteFormNav({
                 color={"default"}
                 position={"fixed"}
                 sx={{ flexDirection: "row" }}
-                className={classNames(classes.appBar, {
-                    [classes.appBarShift]: open,
-                })}
+                classes={{
+                    root: classNames(classes.appBar, {
+                        [classes.appBarShift]: open,
+                    }),
+                }}
             >
                 <Toolbar disableGutters={!open}>
                     <IconButton
@@ -46,9 +48,10 @@ export default function PaletteFormNav({
                         onClick={onDrawerOpen}
                         sx={{
                             marginLeft: "16px",
+                            display: open ? "none" : "inline-flex",
                         }}
                     >
-                        <MenuIcon />
+                        <ChevronRight />
                     </IconButton>
                     <Typography variant="h6" noWrap>
                         {"Create a Palette"}
@@ -78,6 +81,9 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
     },
+    hide: {
+        display: "none",
+    },
     appBar: {
         flexDirection: "row",
         justifyContent: "space-between",
@@ -90,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
         }),
     },
     appBarShift: {
-        width: `calc(100% - ${drawerWidth}px)`,
+        width: `calc(100% - ${drawerWidth}px) !important`,
         marginLeft: drawerWidth,
         transition: theme.transitions.create(["margin", "width"], {
             easing: theme.transitions.easing.easeOut,
