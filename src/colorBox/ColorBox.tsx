@@ -1,4 +1,5 @@
 import { makeStyles } from "@mui/styles"
+import { Theme } from "@mui/system"
 import chroma from "chroma-js"
 import classNames from "classnames"
 import { useState } from "react"
@@ -70,7 +71,7 @@ interface StyleProps {
     viewingSinglePalette: boolean
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     colorBox: ({ viewingSinglePalette }) => ({
         width: "20%",
         height: viewingSinglePalette ? "50%" : "25%",
@@ -82,6 +83,18 @@ const useStyles = makeStyles({
         "&:hover button": {
             opacity: 1,
             transition: "0.5s",
+        },
+        [theme.breakpoints.down("lg")]: {
+            width: "25%",
+            height: viewingSinglePalette ? "20%" : "50%",
+        },
+        [theme.breakpoints.down("md")]: {
+            width: "50%",
+            height: viewingSinglePalette ? "10%" : "%",
+        },
+        [theme.breakpoints.down("sm")]: {
+            width: "100%",
+            height: viewingSinglePalette ? "5%" : "10%",
         },
     }),
     copyButton: ({ isLight }: StyleProps) => ({
@@ -177,4 +190,4 @@ const useStyles = makeStyles({
         fontWeight: 100,
         color: isLight ? "rgba(0,0,0,0.5)" : "white",
     }),
-})
+}))
