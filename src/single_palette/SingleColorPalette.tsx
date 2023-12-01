@@ -1,4 +1,5 @@
 import { makeStyles } from "@mui/styles"
+import { Theme } from "@mui/system"
 import { useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import ColorBox from "../colorBox/ColorBox"
@@ -61,7 +62,7 @@ export default function SingleColorPalette() {
     }
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles<Theme>((theme) => ({
     palette: {
         height: "100vh",
         display: "flex",
@@ -79,6 +80,18 @@ const useStyles = makeStyles({
         cursor: "pointer",
         position: "relative",
         marginBottom: "-3.5px",
+        [theme.breakpoints.down("lg")]: {
+            width: "25%",
+            height: "33.3333%",
+        },
+        [theme.breakpoints.down("md")]: {
+            width: "50%",
+            height: "20%",
+        },
+        [theme.breakpoints.down("sm")]: {
+            width: "100%",
+            height: "10%",
+        },
     },
     backButton: {
         width: "100px",
@@ -99,4 +112,4 @@ const useStyles = makeStyles({
         textTransform: "uppercase",
         textDecoration: "none",
     },
-})
+}))

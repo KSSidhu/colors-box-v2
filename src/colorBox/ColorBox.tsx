@@ -86,15 +86,15 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
         },
         [theme.breakpoints.down("lg")]: {
             width: "25%",
-            height: viewingSinglePalette ? "20%" : "50%",
+            height: viewingSinglePalette ? "33.3333%" : "50%",
         },
         [theme.breakpoints.down("md")]: {
             width: "50%",
-            height: viewingSinglePalette ? "10%" : "%",
+            height: viewingSinglePalette ? "20%" : "10%",
         },
         [theme.breakpoints.down("sm")]: {
             width: "100%",
-            height: viewingSinglePalette ? "5%" : "10%",
+            height: viewingSinglePalette ? "10%" : "10%",
         },
     }),
     copyButton: ({ isLight }: StyleProps) => ({
@@ -176,6 +176,9 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
             marginBottom: 0,
             padding: "1rem",
             textTransform: "uppercase",
+            [theme.breakpoints.down("xs")]: {
+                fontSize: "5rem",
+            },
         },
         ...styleIf(show, {
             opacity: 1,
