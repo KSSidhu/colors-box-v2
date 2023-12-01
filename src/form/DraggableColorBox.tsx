@@ -46,7 +46,7 @@ export default function DraggableColorBox({
     }
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     root: {
         width: "20%",
         height: "25%",
@@ -58,6 +58,18 @@ const useStyles = makeStyles({
         "&:hover svg": {
             color: "white",
             transform: "scale(1.5)",
+        },
+        [theme.breakpoints.down("lg")]: {
+            width: "25%",
+            height: "20%",
+        },
+        [theme.breakpoints.down("md")]: {
+            width: "50%",
+            height: "10%",
+        },
+        [theme.breakpoints.down("sm")]: {
+            width: "100%",
+            height: "5%",
         },
     },
     boxContent: {
@@ -77,4 +89,4 @@ const useStyles = makeStyles({
         color: "rgba(0,0,0,0.5)",
         transition: "all 0.3s ease-in-out",
     },
-})
+}))

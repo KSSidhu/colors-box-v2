@@ -78,7 +78,7 @@ function Navbar({ level, onChange, handleChange }: NavbarProps) {
     }
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     navbar: {
         display: "flex",
         alignItems: "center",
@@ -97,6 +97,9 @@ const useStyles = makeStyles({
         "& a": {
             textDecoration: "none",
             color: "black",
+        },
+        [theme.breakpoints.down("xs")]: {
+            display: "none",
         },
     },
 
@@ -121,12 +124,15 @@ const useStyles = makeStyles({
         "& .rc-slider-track": {
             backgroundColor: "transparent",
         },
+        [theme.breakpoints.down("md")]: {
+            width: "150px",
+        },
     },
 
     selectContainer: {
         marginLeft: "auto",
         marginRight: "1rem",
     },
-})
+}))
 
 export default Navbar

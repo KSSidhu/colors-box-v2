@@ -107,5 +107,8 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(3),
         display: "flex",
         gap: theme.spacing(1),
+        [theme.breakpoints.down("xs")]: {
+            marginRight: 0,
+        },
     },
 }))
