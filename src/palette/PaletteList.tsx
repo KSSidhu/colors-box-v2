@@ -31,7 +31,7 @@ function PaletteList() {
     )
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: "blue",
         height: "100vh",
@@ -45,6 +45,12 @@ const useStyles = makeStyles({
         alignItems: "flex-start",
         flexDirection: "column",
         flexWrap: "wrap",
+        [theme.breakpoints.down("xl")]: {
+            width: "80%",
+        },
+        [theme.breakpoints.down("xs")]: {
+            width: "75%",
+        },
     },
     nav: {
         display: "flex",
@@ -58,8 +64,15 @@ const useStyles = makeStyles({
         width: "100%",
         display: "grid",
         gridTemplateColumns: "repeat(3, 30%)",
-        gridGap: "5%",
+        gridGap: "2.5rem",
+        [theme.breakpoints.down("md")]: {
+            gridTemplateColumns: "repeat(2, 50%)",
+        },
+        [theme.breakpoints.down("sm")]: {
+            gridTemplateColumns: "repeat(1, 100%)",
+            gridGap: "1rem",
+        },
     },
-})
+}))
 
 export default PaletteList
