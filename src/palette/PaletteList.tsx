@@ -2,6 +2,7 @@ import { Button } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 import { useContext } from "react"
 import { Link } from "react-router-dom"
+import { CSSTransition, TransitionGroup } from "react-transition-group"
 import bg from "../assets/bg.svg"
 import { PaletteContext } from "../context/paletteContext"
 import MiniPalette from "./MiniPalette"
@@ -22,17 +23,28 @@ function PaletteList() {
                         {"Create New Palette"}
                     </Button>
                 </nav>
-                <div className={classes.palettes}>
+                <TransitionGroup className={classes.palettes}>
                     {palettes.map((palette) => (
-                        <MiniPalette key={palette.id} {...palette} />
+                        <CSSTransition key={palette.id} classNames={"fade"} timeout={500}>
+                            <MiniPalette {...palette} />
+                        </CSSTransition>
                     ))}
-                </div>
+                </TransitionGroup>
             </div>
         </div>
     )
 }
 
 const useStyles = makeStyles((theme) => ({
+    "@global": {
+        ".fade-exit": {
+            opacity: 1,
+        },
+        ".fade-exit-active": {
+            opacity: 0,
+            transition: "opacity 500ms ease-out",
+        },
+    },
     root: {
         backgroundColor: "#394bad",
         backgroundImage: `url(${bg})`,
