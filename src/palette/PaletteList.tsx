@@ -2,6 +2,7 @@ import { Button } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 import { useContext } from "react"
 import { Link } from "react-router-dom"
+import bg from "../assets/bg.svg"
 import { PaletteContext } from "../context/paletteContext"
 import MiniPalette from "./MiniPalette"
 
@@ -16,7 +17,7 @@ function PaletteList() {
         <div className={classes.root}>
             <div className={classes.container}>
                 <nav className={classes.nav}>
-                    <h1>{"React Colors"}</h1>
+                    <h1 className={classes.header}>{"React Colors"}</h1>
                     <Button component={Link} to={"/palette/new"} variant={"contained"}>
                         {"Create New Palette"}
                     </Button>
@@ -33,11 +34,17 @@ function PaletteList() {
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: "blue",
+        backgroundColor: "#394bad",
+        backgroundImage: `url(${bg})`,
+        /* background by SVGBackgrounds.com */
         height: "100vh",
         display: "flex",
         alignItems: "flex-start",
         justifyContent: "center",
+        overflow: "scroll",
+    },
+    header: {
+        fontSize: "2rem",
     },
     container: {
         width: "50%",
