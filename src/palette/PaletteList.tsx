@@ -1,15 +1,19 @@
 import { Button } from "@mui/material"
 import { makeStyles } from "@mui/styles"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { Link } from "react-router-dom"
 import { CSSTransition, TransitionGroup } from "react-transition-group"
 import bg from "../assets/bg.svg"
 import { PaletteContext } from "../context/paletteContext"
+import useDisclosure from "../utils/useDisclosure"
+import DeletePaletteDialog from "./DeletePaletteDialog"
 import MiniPalette from "./MiniPalette"
 
 function PaletteList() {
     const context = useContext(PaletteContext)
+    const [deletingId, setDeletingId] = useState("")
     const classes = useStyles()
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
     if (!context) return null
 
@@ -26,13 +30,28 @@ function PaletteList() {
                 <TransitionGroup className={classes.palettes}>
                     {palettes.map((palette) => (
                         <CSSTransition key={palette.id} classNames={"fade"} timeout={500}>
-                            <MiniPalette {...palette} />
+                            <MiniPalette {...palette} onDelete={setDeleteId} />
                         </CSSTransition>
                     ))}
                 </TransitionGroup>
             </div>
+            <DeletePaletteDialog
+                isOpen={isOpen}
+                onClose={closeDialog}
+                deletingId={deletingId}
+            />
         </div>
     )
+
+    function setDeleteId(id: string) {
+        setDeletingId(id)
+        onOpen()
+    }
+
+    function closeDialog() {
+        setDeletingId("")
+        onClose()
+    }
 }
 
 const useStyles = makeStyles((theme) => ({

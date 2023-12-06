@@ -2,14 +2,14 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import { makeStyles } from "@mui/styles"
 import { MouseEvent } from "react"
 import { useNavigate } from "react-router-dom"
-import { usePalettes } from "../context/paletteContext"
 import { BasePalette } from "../utils/colorHelper"
 
-type MiniPaletteProps = BasePalette
+type MiniPaletteProps = BasePalette & {
+    onDelete: (id: string) => void
+}
 
 function MiniPalette(props: MiniPaletteProps) {
-    const { deletePalette } = usePalettes()
-    const { paletteName, emoji, colors, id } = props
+    const { paletteName, emoji, colors, id, onDelete } = props
     const navigate = useNavigate()
     const classes = useStyles()
 
@@ -40,7 +40,8 @@ function MiniPalette(props: MiniPaletteProps) {
 
     function removePalette(e: MouseEvent<SVGSVGElement>) {
         e.stopPropagation()
-        deletePalette(id)
+        onDelete(id)
+        // deletePalette(id)
     }
 
     function goToPalette() {
