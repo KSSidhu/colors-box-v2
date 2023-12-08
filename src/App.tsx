@@ -6,6 +6,7 @@ import PaletteForm from "./form/PaletteForm"
 import Palette from "./palette/Palette"
 import PaletteList from "./palette/PaletteList"
 import SingleColorPalette from "./single_palette/SingleColorPalette"
+import FadeTransition from "./transitions/FadeTransition"
 
 declare module "@mui/styles/defaultTheme" {
     // eslint-disable-next-line @typescript-eslint/no-empty-interface (remove this line if you don't have the rule enabled)
@@ -15,19 +16,35 @@ declare module "@mui/styles/defaultTheme" {
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <PaletteList />,
+        element: (
+            <FadeTransition>
+                <PaletteList />
+            </FadeTransition>
+        ),
     },
     {
         path: "/palette/new",
-        element: <PaletteForm />,
+        element: (
+            <FadeTransition>
+                <PaletteForm />
+            </FadeTransition>
+        ),
     },
     {
         path: "/palette/:paletteId",
-        element: <Palette />,
+        element: (
+            <FadeTransition>
+                <Palette />
+            </FadeTransition>
+        ),
     },
     {
         path: "/palette/:paletteId/:colorId",
-        element: <SingleColorPalette />,
+        element: (
+            <FadeTransition>
+                <SingleColorPalette />
+            </FadeTransition>
+        ),
     },
 ])
 
