@@ -1,7 +1,9 @@
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import { DeleteOutlined } from "@mui/icons-material"
+import { Theme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
+import chroma from "chroma-js"
 import { CSSProperties } from "react"
 
 interface DraggableColorBoxProps {
@@ -18,7 +20,9 @@ export default function DraggableColorBox({
     const { setNodeRef, attributes, listeners, transform, transition } = useSortable({
         id: name,
     })
-    const classes = useStyles()
+
+    const isDark = chroma(color).luminance() <= 0.06
+    const classes = useStyles({ isDark })
 
     const styles: CSSProperties = {
         background: color,
@@ -46,7 +50,11 @@ export default function DraggableColorBox({
     }
 }
 
-const useStyles = makeStyles((theme) => ({
+interface StyleProps {
+    isDark: boolean
+}
+
+const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     root: {
         width: "20%",
         height: "25%",
@@ -72,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
             height: "5%",
         },
     },
-    boxContent: {
+    boxContent: ({ isDark }) => ({
         display: "flex",
         justifyContent: "space-between",
         position: "absolute",
@@ -80,13 +88,13 @@ const useStyles = makeStyles((theme) => ({
         left: "0px",
         bottom: "0px",
         padding: "10px",
-        color: "rgba(0,0,0,0.5)",
+        color: isDark ? "white" : "black",
         letterSpacing: "1px",
         textTransform: "uppercase",
         fontSize: "12px",
-    },
-    icon: {
-        color: "rgba(0,0,0,0.5)",
+    }),
+    icon: ({ isDark }) => ({
+        color: isDark ? "white" : "black",
         transition: "all 0.3s ease-in-out",
-    },
+    }),
 }))

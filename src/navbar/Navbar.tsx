@@ -124,7 +124,7 @@ const useStyles = makeStyles((theme) => ({
         "& .rc-slider-track": {
             backgroundColor: "transparent",
         },
-        [theme.breakpoints.down("md")]: {
+        [theme.breakpoints.down("sm")]: {
             width: "150px",
         },
     },

@@ -8,6 +8,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { usePalettes } from "../context/paletteContext"
 import { PaletteFormProvider } from "../context/paletteFormContext"
+import seedColor from "../seed/seedColor"
 import { BasePalette, BasePaletteData } from "../utils/colorHelper"
 import ColorPickerForm from "./ColorPickerForm"
 import DraggableColorList from "./DraggableColorList"
@@ -27,7 +28,7 @@ export default function PaletteForm() {
     const [open, setOpen] = useState(false)
     const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
     const { palettes, savePalette } = usePalettes()
-    const [colors, setColors] = useState<NewColor[]>(palettes[0].colors)
+    const [colors, setColors] = useState<NewColor[]>(seedColor[0].colors)
     const navigate = useNavigate()
     const paletteIsFull = colors.length >= MAX_COLORS
 

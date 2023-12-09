@@ -96,5 +96,6 @@ export default function PaletteMetaForm({ onSubmit }: PaletteMetaFormProps) {
 
     function handleSubmit(emoji: any) {
         onSubmit({ paletteName: newPaletteName, emoji: emoji.native as string })
+        onClose()
     }
 }
