@@ -46,6 +46,14 @@ const router = createBrowserRouter([
             </FadeTransition>
         ),
     },
+    {
+        path: "*",
+        element: (
+            <FadeTransition>
+                <PaletteList />
+            </FadeTransition>
+        ),
+    },
 ])
 
 function App() {

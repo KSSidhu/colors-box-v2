@@ -110,9 +110,17 @@ export default function PaletteForm() {
 
     function addRandomColor() {
         const allColors = palettes.map((p) => p.colors).flat()
-        const rand = Math.floor(Math.random() * allColors.length)
+        let rand
+        let randomColor: NewColor
 
-        const randomColor = allColors[rand]
+        // Keep checking through colors until we get a non-used one
+        let isDup = true
+        while (isDup) {
+            rand = Math.floor(Math.random() * allColors.length)
+            randomColor = allColors[rand]
+            isDup = colors.some((color) => color.name === randomColor.name)
+        }
+
         setColors((prevColors) => [...prevColors, randomColor])
     }
 
